@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - CACME</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #032154;
+            --secondary: #1e3a5f;
+            --gold: #f1c40f;
+            --light-gold: #f9e79f;
+            --white: #ffffff;
+            --gray: #f8f9fa;
+            --text: #6c757d;
+            --dark: #343a40;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--gray);
+            color: var(--dark);
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .logo h1 {
+            font-size: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--white);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Products Grid */
+        .products {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--gold);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 35px;
+            color: var(--white);
+        }
+
+        .product-card h3 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .product-card p {
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .product-card .learn-more {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-card:hover .learn-more {
+            color: var(--primary);
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            padding: 4rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--gold);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(241, 196, 15, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-circle">CACME</div>
+                <div>
+                    <h1>CACME</h1>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Inicio</a>
+                <a href="productos.html">Productos</a>
+                <a href="servicios.html">Servicios</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>NUESTROS PRODUCTOS</h1>
+        <p>Soluciones financieras diseñadas para tu crecimiento</p>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products">
+        <div class="products-grid">
+            <!-- Ahorro Programado -->
+            <a href="products/ahorroprogramado.html" class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-piggy-bank"></i>
+                </div>
+                <h3>Ahorro Programado</h3>
+                <p>Cada aporte es un paso confiable hacia tus sueños, respaldado por la solidez de CACME.</p>
+                <span class="learn-more">Ver más →</span>
+            </a>
+
+            <!-- Ahorro Futuro -->
+            <a href="products/ahorro-futuro.html" class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Ahorro Futuro</h3>
+                <p>Invierte a largo plazo con la seguridad y respaldo de CACME, llevando tus metas más allá.</p>
+                <span class="learn-more">Ver más →</span>
+            </a>
+
+            <!-- Ahorro Infantil -->
+            <a href="products/ahorro-infantil.html" class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-child"></i>
+                </div>
+                <h3>Ahorro Infantil</h3>
+                <p>Construye un fondo que respalde sus estudios, actividades y sus primeros proyectos.</p>
+                <span class="learn-more">Ver más →</span>
+            </a>
+
+            <!-- Inversiones -->
+            <a href="products/inversiones.html" class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h3>Inversiones</h3>
+                <p>Tu rendimiento impulsa proyectos locales y el bienestar de todos los socios.</p>
+                <span class="learn-more">Ver más →</span>
+            </a>
+
+            <!-- CACME Crédito -->
+            <a href="products/cacme-credito.html" class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <h3>CACME Crédito</h3>
+                <p>Atrévete a conquistar tus metas con nuestro crédito inmediato y accesible.</p>
+                <span class="learn-more">Ver más →</span>
+            </a>
+
+            <!-- Ahorro a la Vista -->
+            <a href="products/ahorro-vista.html" class="product-card">
+                <div class="product-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>Ahorro a la Vista</h3>
+                <p>Un respaldo sólido que te acompaña en cada paso de tu vida financiera.</p>
+                <span class="learn-more">Ver más →</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2>¿Listo para empezar?</h2>
+        <p>Únete a miles de socios que ya confían en CACME</p>
+        <a href="contacto.html" class="btn">Contáctanos Ahora</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 CACME LTDA. Todos los derechos reservados. | 17 años fomentando tu desarrollo</p>
+    </footer>
+
+    <!-- Asistente Virtual -->
+    <script src="../static/js/cacmi.js"></script>
+</body>
+</html>

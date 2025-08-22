@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inversiones - CACME</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #032154;
+            --secondary: #1e3a5f;
+            --gold: #f1c40f;
+            --light-gold: #f9e79f;
+            --white: #ffffff;
+            --gray: #f8f9fa;
+            --text: #6c757d;
+            --dark: #343a40;
+            --success: #28a745;
+            --investment-blue: #2c3e50;
+            --investment-green: #27ae60;
+            --investment-purple: #8e44ad;
+            --investment-orange: #e67e22;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--white);
+            color: var(--dark);
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--white);
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-circle {
+            width: 40px;
+            height: 40px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--investment-blue) 0%, var(--investment-purple) 50%, var(--investment-green) 100%);
+            color: var(--white);
+            padding: 5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 0;
+            right: 0;
+            font-size: 2rem;
+            animation: float 8s ease-in-out infinite;
+            opacity: 0.2;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 60px;
+            color: var(--investment-green);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: pulse-glow 3s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(39, 174, 96, 0.4);
+            }
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 20px;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Content Section */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 3rem;
+        }
+
+        .info-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            border-left: 5px solid var(--investment-green);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .info-card:nth-child(1) { border-left-color: var(--investment-green); }
+        .info-card:nth-child(2) { border-left-color: var(--investment-blue); }
+        .info-card:nth-child(3) { border-left-color: var(--investment-purple); }
+        .info-card:nth-child(4) { border-left-color: var(--investment-orange); }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .info-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .info-card:nth-child(1) .info-card-icon { background: var(--investment-green); }
+        .info-card:nth-child(2) .info-card-icon { background: var(--investment-blue); }
+        .info-card:nth-child(3) .info-card-icon { background: var(--investment-purple); }
+        .info-card:nth-child(4) .info-card-icon { background: var(--investment-orange); }
+
+        .info-card h3 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-card li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .info-card li::before {
+            content: '💎';
+            position: absolute;
+            left: 0;
+            font-size: 16px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, var(--light-gold) 0%, #f39c12 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Investment Types */
+        .investment-types {
+            background: var(--gray);
+            padding: 4rem 0;
+            margin-top: 4rem;
+        }
+
+        .types-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .types-content h2 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 36px;
+            margin-bottom: 3rem;
+        }
+
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .type-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .type-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+        }
+
+        .type-card:nth-child(1)::before { background: var(--investment-green); }
+        .type-card:nth-child(2)::before { background: var(--investment-blue); }
+        .type-card:nth-child(3)::before { background: var(--investment-purple); }
+
+        .type-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .type-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 35px;
+            color: var(--white);
+        }
+
+        .type-card:nth-child(1) .type-icon { background: var(--investment-green); }
+        .type-card:nth-child(2) .type-icon { background: var(--investment-blue); }
+        .type-card:nth-child(3) .type-icon { background: var(--investment-purple); }
+
+        .type-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .type-card .duration {
+            background: var(--investment-green);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .type-card:nth-child(2) .duration { background: var(--investment-blue); }
+        .type-card:nth-child(3) .duration { background: var(--investment-purple); }
+
+        .rate-display {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--investment-green);
+            margin: 15px 0;
+        }
+
+        .type-card:nth-child(2) .rate-display { color: var(--investment-blue); }
+        .type-card:nth-child(3) .rate-display { color: var(--investment-purple); }
+
+        /* Calculator Section */
+        .calculator-section {
+            padding: 4rem 0;
+            background: var(--white);
+        }
+
+        .calculator-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .calculator-content h2 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 36px;
+            margin-bottom: 3rem;
+        }
+
+        .calculator {
+            background: linear-gradient(135deg, var(--gray) 0%, var(--white) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .form-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--investment-green);
+        }
+
+        .result-section {
+            background: linear-gradient(135deg, var(--investment-green) 0%, var(--investment-blue) 100%);
+            color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .result-item {
+            margin-bottom: 20px;
+        }
+
+        .result-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .result-highlight {
+            font-size: 32px;
+            margin: 20px 0;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: linear-gradient(135deg, var(--investment-blue) 0%, var(--investment-purple) 100%);
+            padding: 4rem 0;
+            color: var(--white);
+        }
+
+        .benefits-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .benefits h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 35px;
+            color: var(--investment-green);
+        }
+
+        .benefit-item h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .benefit-item p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Risk Information */
+        .risk-info {
+            background: var(--gray);
+            padding: 4rem 0;
+        }
+
+        .risk-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .risk-content h2 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 36px;
+            margin-bottom: 3rem;
+        }
+
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .risk-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .risk-level {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .risk-low { background: #d4edda; color: #155724; }
+        .risk-medium { background: #fff3cd; color: #856404; }
+        .risk-high { background: #f8d7da; color: #721c24; }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--investment-green) 0%, var(--investment-blue) 100%);
+            padding: 4rem 0;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--investment-green);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver a Inicio</span>
+            </a>
+            <div class="logo">
+                <div class="logo-circle">CACME</div>
+                <span>Cooperativa de Ahorro y Crédito</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <h1>Inversiones CACME</h1>
+            <p class="subtitle"> Multiplica tu patrimonio con seguridad y rentabilidad. Tu rendimiento impulsa proyectos locales y el bienestar de todos los socios. Invierte inteligentemente y construye un futuro próspero. </p>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content">
+        <div class="info-grid">
+            <!-- Características -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Características Principales</h3>
+                <ul>
+                    <li>Inversión mínima desde <span class="highlight">$1,000 USD</span></li>
+                    <li>Tasas de rendimiento competitivas hasta <span class="highlight">9% anual</span></li>
+                    <li>Plazos flexibles desde 6 meses</li>
+                    <li>Reinversión automática opcional</li>
+                    <li>Certificados de depósito transferibles</li>
+                    <li>Respaldo institucional garantizado</li>
+                </ul>
+            </div>
+
+            <!-- Requisitos -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <h3>Requisitos de Inversión</h3>
+                <ul>
+                    <li>Ser socio activo de CACME LTDA</li>
+                    <li>Cédula de identidad vigente</li>
+                    <li>Comprobante de ingresos actualizado</li>
+                    <li>Formulario de perfil de inversionista</li>
+                    <li>Declaración de origen de fondos</li>
+                    <li>Autorización para débito automático (opcional)</li>
+                </ul>
+            </div>
+
+            <!-- Beneficios -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h3>Beneficios Exclusivos</h3>
+                <ul>
+                    <li>Rendimientos superiores al mercado tradicional</li>
+                    <li>Contribuyes al desarrollo de la comunidad</li>
+                    <li>Asesoría financiera personalizada gratuita</li>
+                    <li>Acceso prioritario a productos CACME</li>
+                    <li>Estados de cuenta detallados mensuales</li>
+                    <li>Posibilidad de usar como garantía para créditos</li>
+                </ul>
+            </div>
+
+            <!-- Seguridad -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Seguridad y Respaldo</h3>
+                <ul>
+                    <li>Supervisión de la SEPS</li>
+                    <li>Respaldo del Fondo de Seguro de Depósitos</li>
+                    <li>17 años de solvencia comprobada</li>
+                    <li>Auditorías externas regulares</li>
+                    <li>Transparencia en el uso de recursos</li>
+                    <li>Calificación de riesgo actualizada</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment Types -->
+    <section class="investment-types">
+        <div class="types-content">
+            <h2>Tipos de Inversión Disponibles</h2>
+            <div class="types-grid">
+                <div class="type-card">
+                    <div class="type-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Inversión Básica</h3>
+                    <div class="duration">6 - 12 meses</div>
+                    <div class="rate-display">6.5%</div>
+                    <p><strong>Monto:</strong> $1,000 - $4,999</p>
+                    <p>Ideal para inversionistas que inician. Liquidez parcial disponible.</p>
+                </div>
+                
+                <div class="type-card">
+                    <div class="type-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h3>Inversión Plus</h3>
+                    <div class="duration">12 - 24 meses</div>
+                    <div class="rate-display">7.5%</div>
+                    <p><strong>Monto:</strong> $5,000 - $14,999</p>
+                    <p>Mayor rentabilidad con plazos intermedios. Opciones de capitalización.</p>
+                </div>
+                
+                <div class="type-card">
+                    <div class="type-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Inversión Premium</h3>
+                    <div class="duration">24+ meses</div>
+                    <div class="rate-display">9.0%</div>
+                    <p><strong>Monto:</strong> $15,000+</p>
+                    <p>Máxima rentabilidad para grandes capitales. Asesoría VIP incluida.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="calculator-section">
+        <div class="calculator-content">
+            <h2>Simulador de Inversión</h2>
+            <div class="calculator">
+                <div class="calculator-grid">
+                    <div class="form-section">
+                        <h3 style="color: var(--primary); margin-bottom: 20px;">Datos de Inversión</h3>
+                        
+                        <div class="form-group">
+                            <label>Monto a Invertir ($)</label>
+                            <input type="number" id="investmentAmount" min="1000" value="5000" onchange="calculateInvestment()">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Plazo (meses)</label>
+                            <select id="investmentTerm" onchange="calculateInvestment()">
+                                <option value="6">6 meses</option>
+                                <option value="12" selected>12 meses</option>
+                                <option value="18">18 meses</option>
+                                <option value="24">24 meses</option>
+                                <option value="36">36 meses</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Tipo de Inversión</label>
+                            <select id="investmentType" onchange="calculateInvestment()">
+                                <option value="6.5">Básica (6.5% anual)</option>
+                                <option value="7.5" selected>Plus (7.5% anual)</option>
+                                <option value="9.0">Premium (9.0% anual)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h3 style="margin-bottom: 20px;">Proyección de Rendimientos</h3>
+                        
+                        <div class="result-item">
+                            <div class="result-label">Capital Inicial</div>
+                            <div class="result-value" id="initialCapital">$5,000.00</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-label">Intereses Generados</div>
+                            <div class="result-value" id="interestEarned">$375.00</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-label">Total al Vencimiento</div>
+                            <div class="result-value result-highlight" id="totalAmount">$5,375.00</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-label">Rendimiento Mensual</div>
+                            <div class="result-value" id="monthlyReturn">$31.25</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="benefits-content">
+            <h2>¿Por qué Invertir con CACME?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h4>Impacto Social</h4>
+                    <p>Tu inversión financia proyectos que benefician directamente a la comunidad</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h4>Rentabilidad Competitiva</h4>
+                    <p>Tasas de retorno superiores a las ofrecidas por instituciones tradicionales</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Confianza Mutua</h4>
+                    <p>17 años construyendo relaciones sólidas con nuestros socios inversionistas</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h4>Sostenibilidad</h4>
+                    <p>Apoyas el desarrollo sostenible y la economía popular y solidaria</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Risk Information -->
+    <section class="risk-info">
+        <div class="risk-content">
+            <h2>Información de Riesgos y Perfil del Inversionista</h2>
+            <div class="risk-grid">
+                <div class="risk-card">
+                    <div class="risk-level risk-low">RIESGO BAJO</div>
+                    <h3>Perfil Conservador</h3>
+                    <p><strong>Características:</strong></p>
+                    <ul style="text-align: left; margin-top: 10px;">
+                        <li>Busca preservar el capital</li>
+                        <li>Acepta rendimientos moderados</li>
+                        <li>Prefiere inversiones de corto plazo</li>
+                        <li>Prioriza la seguridad sobre la rentabilidad</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Recomendado:</strong> Inversión Básica 6-12 meses</p>
+                </div>
+                
+                <div class="risk-card">
+                    <div class="risk-level risk-medium">RIESGO MODERADO</div>
+                    <h3>Perfil Balanceado</h3>
+                    <p><strong>Características:</strong></p>
+                    <ul style="text-align: left; margin-top: 10px;">
+                        <li>Equilibrio entre seguridad y rentabilidad</li>
+                        <li>Dispuesto a asumir riesgos calculados</li>
+                        <li>Plazos intermedios aceptables</li>
+                        <li>Diversifica sus inversiones</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Recomendado:</strong> Inversión Plus 12-24 meses</p>
+                </div>
+                
+                <div class="risk-card">
+                    <div class="risk-level risk-high">RIESGO ALTO</div>
+                    <h3>Perfil Agresivo</h3>
+                    <p><strong>Características:</strong></p>
+                    <ul style="text-align: left; margin-top: 10px;">
+                        <li>Busca máxima rentabilidad</li>
+                        <li>Tolera fluctuaciones de mercado</li>
+                        <li>Inversiones a largo plazo</li>
+                        <li>Experiencia en mercados financieros</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Recomendado:</strong> Inversión Premium 24+ meses</p>
+                </div>
+            </div>
+            
+            <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 10px; padding: 20px; margin-top: 30px;">
+                <h4 style="color: #856404; margin-bottom: 10px;">⚠️ Aviso Importante</h4>
+                <p style="color: #856404; margin: 0; line-height: 1.6;">
+                    Toda inversión conlleva riesgos. Los rendimientos pasados no garantizan resultados futuros. 
+                    Te recomendamos leer cuidadosamente los términos y condiciones antes de invertir. 
+                    Nuestro equipo está disponible para asesorarte según tu perfil de riesgo.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment Process -->
+    <section style="padding: 4rem 0; background: var(--white);">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <h2 style="text-align: center; color: var(--primary); font-size: 36px; margin-bottom: 3rem;">
+                Proceso de Inversión Simplificado
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                <div style="text-align: center; padding: 20px;">
+                    <div style="width: 80px; height: 80px; background: var(--investment-green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 20px; font-weight: bold;">1</div>
+                    <h4 style="color: var(--primary); margin-bottom: 10px;">Evaluación</h4>
+                    <p>Analizamos tu perfil de inversionista y objetivos financieros</p>
+                </div>
+                
+                <div style="text-align: center; padding: 20px;">
+                    <div style="width: 80px; height: 80px; background: var(--investment-blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 20px; font-weight: bold;">2</div>
+                    <h4 style="color: var(--primary); margin-bottom: 10px;">Propuesta</h4>
+                    <p>Te presentamos las mejores opciones adaptadas a tus necesidades</p>
+                </div>
+                
+                <div style="text-align: center; padding: 20px;">
+                    <div style="width: 80px; height: 80px; background: var(--investment-purple); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 20px; font-weight: bold;">3</div>
+                    <h4 style="color: var(--primary); margin-bottom: 10px;">Formalización</h4>
+                    <p>Firmamos el contrato y procesamos tu inversión de forma segura</p>
+                </div>
+                
+                <div style="text-align: center; padding: 20px;">
+                    <div style="width: 80px; height: 80px; background: var(--investment-orange); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 20px; font-weight: bold;">4</div>
+                    <h4 style="color: var(--primary); margin-bottom: 10px;">Seguimiento</h4>
+                    <p>Monitoreo constante y reportes periódicos del rendimiento</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2>🚀 Comienza a Invertir con CACME Hoy</h2>
+        <p>Tu futuro financiero y el desarrollo de la comunidad van de la mano</p>
+        <div class="btn-group">
+            <a href="#" class="btn btn-primary">Solicitar Asesoría de Inversión</a>
+            <a href="tel:0981045327" class="btn btn-secondary">Contactar a un Especialista</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 CACME LTDA. Todos los derechos reservados. | 17 años fomentando tu desarrollo</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function calculateInvestment() {
+            const amount = parseFloat(document.getElementById('investmentAmount').value) || 0;
+            const term = parseInt(document.getElementById('investmentTerm').value) || 0;
+            const annualRate = parseFloat(document.getElementById('investmentType').value) || 0;
+            
+            // Cálculo de interés simple para certificados de depósito
+            const monthlyRate = annualRate / 12 / 100;
+            const totalInterest = amount * (annualRate / 100) * (term / 12);
+            const totalAmount = amount + totalInterest;
+            const monthlyReturn = totalInterest / term;
+            
+            // Actualizar resultados
+            document.getElementById('initialCapital').textContent = ' + amount.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('interestEarned').textContent = ' + totalInterest.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('totalAmount').textContent = ' + totalAmount.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('monthlyReturn').textContent = ' + monthlyReturn.toLocaleString('en-US', {minimumFractionDigits: 2});
+        }
+        
+        // Calcular al cargar la página
+        calculateInvestment();
+    </script>
+
+    <!-- Asistente Virtual -->
+    <script src="../../static/js/cacmi.js"></script>
+</body>
+</html>

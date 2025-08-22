@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahorro a la Vista - CACME</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #032154;
+            --secondary: #1e3a5f;
+            --gold: #f1c40f;
+            --light-gold: #f9e79f;
+            --white: #ffffff;
+            --gray: #f8f9fa;
+            --text: #6c757d;
+            --dark: #343a40;
+            --success: #28a745;
+            --vista-blue: #2980b9;
+            --vista-cyan: #17a2b8;
+            --vista-teal: #20c997;
+            --vista-green: #28a745;
+            --vista-indigo: #6610f2;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--white);
+            color: var(--dark);
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--white);
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-circle {
+            width: 40px;
+            height: 40px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--vista-blue) 0%, var(--vista-cyan) 30%, var(--vista-teal) 70%, var(--vista-green) 100%);
+            color: var(--white);
+            padding: 5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 0;
+            right: 0;
+            font-size: 2rem;
+            opacity: 0.2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 60px;
+            color: var(--vista-cyan);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 20px;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Key Features */
+        .key-features {
+            background: var(--white);
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:nth-child(1) { background: linear-gradient(135deg, var(--vista-blue) 0%, #3498db 100%); }
+        .feature-item:nth-child(2) { background: linear-gradient(135deg, var(--vista-cyan) 0%, #48cae4 100%); }
+        .feature-item:nth-child(3) { background: linear-gradient(135deg, var(--vista-teal) 0%, #52e5e7 100%); }
+        .feature-item:nth-child(4) { background: linear-gradient(135deg, var(--vista-green) 0%, #52e5e7 100%); }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            color: var(--white);
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .feature-desc {
+            color: var(--white);
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Content Section */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 3rem;
+        }
+
+        .info-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            border-left: 5px solid var(--vista-cyan);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .info-card:nth-child(1) { border-left-color: var(--vista-blue); }
+        .info-card:nth-child(2) { border-left-color: var(--vista-cyan); }
+        .info-card:nth-child(3) { border-left-color: var(--vista-teal); }
+        .info-card:nth-child(4) { border-left-color: var(--vista-green); }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .info-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .info-card:nth-child(1) .info-card-icon { background: var(--vista-blue); }
+        .info-card:nth-child(2) .info-card-icon { background: var(--vista-cyan); }
+        .info-card:nth-child(3) .info-card-icon { background: var(--vista-teal); }
+        .info-card:nth-child(4) .info-card-icon { background: var(--vista-green); }
+
+        .info-card h3 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-card li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .info-card li::before {
+            content: '👁️';
+            position: absolute;
+            left: 0;
+            font-size: 16px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, var(--light-gold) 0%, var(--gold) 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Account Types */
+        .account-types {
+            background: var(--gray);
+            padding: 4rem 0;
+            margin-top: 4rem;
+        }
+
+        .types-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .types-content h2 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 36px;
+            margin-bottom: 3rem;
+        }
+
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .type-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .type-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+        }
+
+        .type-card:nth-child(1)::before { background: var(--vista-blue); }
+        .type-card:nth-child(2)::before { background: var(--vista-cyan); }
+        .type-card:nth-child(3)::before { background: var(--vista-teal); }
+
+        .type-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .type-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 35px;
+            color: var(--white);
+        }
+
+        .type-card:nth-child(1) .type-icon { background: var(--vista-blue); }
+        .type-card:nth-child(2) .type-icon { background: var(--vista-cyan); }
+        .type-card:nth-child(3) .type-icon { background: var(--vista-teal); }
+
+        .type-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .minimum-amount {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .type-card:nth-child(1) .minimum-amount { color: var(--vista-blue); }
+        .type-card:nth-child(2) .minimum-amount { color: var(--vista-cyan); }
+        .type-card:nth-child(3) .minimum-amount { color: var(--vista-teal); }
+
+        /* Services Section */
+        .services {
+            padding: 4rem 0;
+            background: var(--white);
+        }
+
+        .services-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .services-content h2 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 36px;
+            margin-bottom: 3rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .service-item {
+            background: var(--gray);
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover {
+            background: var(--white);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 30px;
+            color: var(--white);
+        }
+
+        .service-item:nth-child(1) .service-icon { background: var(--vista-blue); }
+        .service-item:nth-child(2) .service-icon { background: var(--vista-cyan); }
+        .service-item:nth-child(3) .service-icon { background: var(--vista-teal); }
+        .service-item:nth-child(4) .service-icon { background: var(--vista-green); }
+        .service-item:nth-child(5) .service-icon { background: var(--vista-indigo); }
+        .service-item:nth-child(6) .service-icon { background: var(--primary); }
+
+        .service-item h4 {
+            color: var(--primary);
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .service-item p {
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* Comparison Section */
+        .comparison {
+            background: linear-gradient(135deg, var(--vista-blue) 0%, var(--vista-cyan) 100%);
+            padding: 4rem 0;
+            color: var(--white);
+        }
+
+        .comparison-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .comparison h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .comparison-table {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--vista-blue);
+            color: var(--white);
+            padding: 15px 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        td {
+            padding: 15px 10px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            color: var(--dark);
+        }
+
+        .cacme-column {
+            background: #e8f5e8;
+            font-weight: bold;
+        }
+
+        .check-icon {
+            color: var(--vista-green);
+            font-size: 18px;
+        }
+
+        .x-icon {
+            color: #e74c3c;
+            font-size: 18px;
+        }
+
+        /* Digital Services */
+        .digital-services {
+            background: var(--gray);
+            padding: 4rem 0;
+        }
+
+        .digital-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .digital-content h2 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 36px;
+            margin-bottom: 3rem;
+        }
+
+        .digital-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .digital-features {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .digital-features h3 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        .digital-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .digital-list li {
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            color: var(--text);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .digital-list li::before {
+            content: '📱';
+            position: absolute;
+            left: 0;
+            font-size: 18px;
+        }
+
+        .digital-mockup {
+            text-align: center;
+        }
+
+        .phone-mockup {
+            width: 250px;
+            height: 450px;
+            background: linear-gradient(135deg, var(--vista-blue) 0%, var(--vista-cyan) 100%);
+            border-radius: 30px;
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .phone-screen {
+            background: var(--white);
+            margin: 20px;
+            height: calc(100% - 40px);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .app-header {
+            text-align: center;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .balance-display {
+            background: var(--vista-blue);
+            color: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .balance-amount {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            background: var(--gray);
+            padding: 15px 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--primary);
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--vista-teal) 0%, var(--vista-green) 100%);
+            padding: 4rem 0;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--vista-teal);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .digital-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver a Inicio</span>
+            </a>
+            <div class="logo">
+                <div class="logo-circle">CACME</div>
+                <span>Cooperativa de Ahorro y Crédito</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">
+                <i class="fas fa-eye"></i>
+            </div>
+            <h1>Ahorro a la Vista</h1>
+            <p class="subtitle"> Un respaldo sólido que te acompaña en cada paso de tu vida financiera. Acceso inmediato a tus fondos, seguridad garantizada y el respaldo de 17 años de experiencia. Tu dinero siempre disponible cuando lo necesites. </p>
+        </div>
+    </section>
+
+    <!-- Key Features -->
+    <section class="key-features">
+        <div class="features-container">
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="feature-title">Acceso Inmediato</div>
+                    <div class="feature-desc">24/7 disponibilidad</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="feature-title">100% Seguro</div>
+                    <div class="feature-desc">Respaldo COSEDE</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="feature-title">Banca Digital</div>
+                    <div class="feature-desc">App móvil incluida</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <div class="feature-title">Sin Comisiones</div>
+                    <div class="feature-desc">Mantenimiento gratis</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content">
+        <div class="info-grid">
+            <!-- Características -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Características Principales</h3>
+                <ul>
+                    <li>Apertura desde <span class="highlight">$20 USD</span></li>
+                    <li>Sin costo de mantenimiento mensual</li>
+                    <li>Retiros ilimitados sin penalización</li>
+                    <li>Tarjeta de débito internacional</li>
+                    <li>Banca en línea y app móvil</li>
+                    <li>Tasa de interés competitiva sobre saldo</li>
+                </ul>
+            </div>
+
+            <!-- Requisitos -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <h3>Requisitos de Apertura</h3>
+                <ul>
+                    <li>Cédula de identidad vigente</li>
+                    <li>Certificado de votación actualizado</li>
+                    <li>Planilla de servicios básicos reciente</li>
+                    <li>Fotografía tamaño carnet actualizada</li>
+                    <li>Depósito inicial mínimo $20</li>
+                    <li>Llenar formulario de apertura</li>
+                </ul>
+            </div>
+
+            <!-- Beneficios -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h3>Beneficios Exclusivos</h3>
+                <ul>
+                    <li>Acceso prioritario a productos CACME</li>
+                    <li>Descuentos en establecimientos afiliados</li>
+                    <li>Asesoría financiera personalizada</li>
+                    <li>Estados de cuenta gratuitos</li>
+                    <li>Seguro de desgravamen incluido</li>
+                    <li>Red de cajeros automáticos sin costo</li>
+                </ul>
+            </div>
+
+            <!-- Servicios -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h3>Servicios Incluidos</h3>
+                <ul>
+                    <li>Transferencias interbancarias</li>
+                    <li>Pagos de servicios básicos</li>
+                    <li>Recargas telefónicas</li>
+                    <li>Consultas de saldo por SMS</li>
+                    <li>Débitos automáticos programados</li>
+                    <li>Notificaciones de movimientos</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Account Types -->
+    <section class="account-types">
+        <div class="types-content">
+            <h2>Tipos de Cuenta a la Vista</h2>
+            <div class="types-grid">
+                <div class="type-card">
+                    <div class="type-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Cuenta Personal</h3>
+                    <div class="minimum-amount">Desde $20</div>
+                    <p><strong>Ideal para:</strong> Personas naturales</p>
+                    <p>Perfecta para el manejo de tus finanzas personales diarias con total flexibilidad.</p>
+                    <ul style="text-align: left; margin-top: 15px; font-size: 14px;">
+                        <li>✓ Tarjeta de débito personalizada</li>
+                        <li>✓ Banca móvil completa</li>
+                        <li>✓ Estados de cuenta mensuales</li>
+                    </ul>
+                </div>
+                
+                <div class="type-card">
+                    <div class="type-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3>Cuenta Empresarial</h3>
+                    <div class="minimum-amount">Desde $100</div>
+                    <p><strong>Ideal para:</strong> Empresas y negocios</p>
+                    <p>Diseñada para el flujo de efectivo empresarial con herramientas especializadas.</p>
+                    <ul style="text-align: left; margin-top: 15px; font-size: 14px;">
+                        <li>✓ Múltiples tarjetas autorizadas</li>
+                        <li>✓ Reportes financieros detallados</li>
+                        <li>✓ Límites de transacción ampliados</li>
+                    </ul>
+                </div>
+                
+                <div class="type-card">
+                    <div class="type-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Cuenta Familiar</h3>
+                    <div class="minimum-amount">Desde $50</div>
+                    <p><strong>Ideal para:</strong> Familias</p>
+                    <p>Cuenta compartida para gastos familiares con control y supervisión parental.</p>
+                    <ul style="text-align: left; margin-top: 15px; font-size: 14px;">
+                        <li>✓ Hasta 4 tarjetas adicionales</li>
+                        <li>✓ Control de límites por tarjeta</li>
+                        <li>✓ Notificaciones a todos los miembros</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services">
+        <div class="services-content">
+            <h2>Servicios Disponibles</h2>
+            <div class="services-grid">
+                <div class="service-item">
+                    <div class="service-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h4>Tarjeta de Débito</h4>
+                    <p>Visa o Mastercard con chip de seguridad y tecnología contactless</p>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h4>Transferencias</h4>
+                    <p>Envía dinero dentro de CACME o a otros bancos de forma instantánea</p>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <h4>Pago de Servicios</h4>
+                    <p>Luz, agua, teléfono, internet y más desde tu cuenta</p>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h4>Notificaciones</h4>
+                    <p>Alertas por SMS y email de todos tus movimientos</p>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h4>Débitos Automáticos</h4>
+                    <p>Programa pagos recurrentes para mayor comodidad</p>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Reportes Financieros</h4>
+                    <p>Análisis detallado de tus gastos e ingresos mensuales</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section class="comparison">
+        <div class="comparison-content">
+            <h2>CACME vs Bancos Tradicionales</h2>
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Característica</th>
+                            <th>CACME</th>
+                            <th>Banco A</th>
+                            <th>Banco B</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Monto mínimo apertura</strong></td>
+                            <td class="cacme-column">$20</td>
+                            <td>$100</td>
+                            <td>$200</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Costo mantenimiento</strong></td>
+                            <td class="cacme-column">$0</td>
+                            <td>$5/mes</td>
+                            <td>$8/mes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tarjeta de débito</strong></td>
+                            <td class="cacme-column"><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Banca móvil</strong></td>
+                            <td class="cacme-column"><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Retiros gratis otros ATM</strong></td>
+                            <td class="cacme-column"><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Asesoría personalizada</strong></td>
+                            <td class="cacme-column"><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                            <td><i class="fas fa-check check-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Seguro desgravamen</strong></td>
+                            <td class="cacme-column"><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Impacto social</strong></td>
+                            <td class="cacme-column"><i class="fas fa-check check-icon"></i></td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                            <td><i class="fas fa-times x-icon"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Digital Services -->
+    <section class="digital-services">
+        <div class="digital-content">
+            <h2>Experiencia Digital Completa</h2>
+            <div class="digital-grid">
+                <div class="digital-features">
+                    <h3>CACME App Móvil</h3>
+                    <ul class="digital-list">
+                        <li>Consulta de saldo y movimientos en tiempo real</li>
+                        <li>Transferencias inmediatas 24/7</li>
+                        <li>Pago de servicios básicos</li>
+                        <li>Recargas telefónicas</li>
+                        <li>Localización de cajeros automáticos</li>
+                        <li>Configuración de alertas personalizadas</li>
+                        <li>Contacto directo con asesores</li>
+                        <li>Solicitud de productos en línea</li>
+                    </ul>
+                </div>
+                
+                <div class="digital-mockup">
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div class="app-header">
+                                💼 CACME App
+                            </div>
+                            <div class="balance-display">
+                                <div style="font-size: 14px; opacity: 0.8;">Saldo Disponible</div>
+                                <div class="balance-amount">$2,450.75</div>
+                            </div>
+                            <div class="quick-actions">
+                                <div class="action-btn">
+                                    💸<br>Transferir
+                                </div>
+                                <div class="action-btn">
+                                    💡<br>Pagar
+                                </div>
+                                <div class="action-btn">
+                                    📱<br>Recargar
+                                </div>
+                                <div class="action-btn">
+                                    📊<br>Consultar
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Section -->
+    <section style="padding: 4rem 0; background: var(--white);">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <h2 style="text-align: center; color: var(--primary); font-size: 36px; margin-bottom: 3rem;">
+                Seguridad y Respaldo
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                <div style="background: var(--gray); padding: 30px; border-radius: 15px; text-align: center;">
+                    <div style="width: 60px; height: 60px; background: var(--vista-blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 24px;">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4 style="color: var(--primary); margin-bottom: 10px;">COSEDE</h4>
+                    <p>Respaldo del Fondo de Seguro de Depósitos hasta $32,000 por cuenta</p>
+                </div>
+                
+                <div style="background: var(--gray); padding: 30px; border-radius: 15px; text-align: center;">
+                    <div style="width: 60px; height: 60px; background: var(--vista-cyan); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 24px;">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h4 style="color: var(--primary); margin-bottom: 10px;">SEPS</h4>
+                    <p>Supervisión constante de la Superintendencia de Economía Popular y Solidaria</p>
+                </div>
+                
+                <div style="background: var(--gray); padding: 30px; border-radius: 15px; text-align: center;">
+                    <div style="width: 60px; height: 60px; background: var(--vista-teal); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 24px;">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h4 style="color: var(--primary); margin-bottom: 10px;">Encriptación</h4>
+                    <p>Tecnología SSL 256 bits para proteger todas tus transacciones digitales</p>
+                </div>
+                
+                <div style="background: var(--gray); padding: 30px; border-radius: 15px; text-align: center;">
+                    <div style="width: 60px; height: 60px; background: var(--vista-green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 24px;">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h4 style="color: var(--primary); margin-bottom: 10px;">17 Años</h4>
+                    <p>De experiencia y solidez financiera comprobada en el mercado ecuatoriano</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Benefits Section -->
+    <section style="padding: 4rem 0; background: var(--gray);">
+        <div style="max-width: 1000px; margin: 0 auto; padding: 0 20px;">
+            <h2 style="text-align: center; color: var(--primary); font-size: 36px; margin-bottom: 3rem;">
+                Beneficios Adicionales
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div style="background: var(--white); padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: var(--vista-blue); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-percentage"></i> Tasas Preferenciales
+                    </h4>
+                    <p>Gana intereses sobre tu saldo disponible con tasas competitivas que superan a las cuentas tradicionales.</p>
+                </div>
+                
+                <div style="background: var(--white); padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: var(--vista-cyan); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-network-wired"></i> Red de Cajeros
+                    </h4>
+                    <p>Acceso gratuito a red nacional de cajeros automáticos sin costo adicional por transacciones.</p>
+                </div>
+                
+                <div style="background: var(--white); padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h4 style="color: var(--vista-teal); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-handshake"></i> Economía Social
+                    </h4>
+                    <p>Tu dinero contribuye al desarrollo de proyectos comunitarios y fortalece la economía local.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2> Abre tu Cuenta a la Vista Hoy</h2>
+        <p>Tu dinero siempre disponible, tu futuro siempre seguro</p>
+        <div class="btn-group">
+            <a href="#" class="btn btn-primary">Abrir Cuenta Online</a>
+            <a href="tel:0981045327" class="btn btn-secondary">Llamar a un Asesor</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 CACME LTDA. Todos los derechos reservados. | 17 años fomentando tu desarrollo</p>
+    </footer>
+
+    <!-- Asistente Virtual -->
+    <script src="../../static/js/cacmi.js"></script>
+</body>
+</html>

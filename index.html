@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CACME - Cooperativa de Ahorro y Crédito</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #032154;
+            --secondary: #1e3a5f;
+            --gold: #F2DB16; 
+            --light-gold: #f9e79f;
+            --white: #ffffff;
+            --gray: #ecf0f1;
+            --dark: #032154;
+            --text: #34495e;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        /* Loading Screen */
+        #loadingScreen {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-content {
+            text-align: center;
+            color: white;
+        }
+
+        .loader-logo {
+            width: 120px;
+            height: 120px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 40px;
+            font-weight: bold;
+            color: var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 20px rgba(241, 196, 15, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(241, 196, 15, 0);
+            }
+        }
+
+        .loader-text {
+            font-size: 28px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            animation: fadeInOut 2s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .loader-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .loader-bar-fill {
+            height: 100%;
+            background: var(--gold);
+            width: 0;
+            border-radius: 2px;
+            animation: loadingBar 2s ease-in-out;
+        }
+
+        @keyframes loadingBar {
+            0% { width: 0; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-bar {
+            background: var(--primary);
+            color: white;
+            padding: 10px 0;
+        }
+
+        .top-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-circle {
+            width: 60px;
+            height: 60px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .logo-text h1 {
+            font-size: 28px;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--gold);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .btn-online {
+            background: var(--gold);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .btn-online:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 150px 0 80px;
+            margin-top: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23032154" width="1200" height="600"/><path d="M0,300 Q300,200 600,300 T1200,300 V600 H0 V300" fill="%231e3a5f" opacity="0.3"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-text h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        .hero-text p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--primary);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .hero-image {
+            text-align: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            font-size: 18px;
+            color: var(--text);
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text {
+            text-align: justify;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            color: var(--text);
+            line-height: 1.8;
+        }
+
+        .about-image {
+            background: var(--gray);
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .anniversary-badge {
+            background: var(--gold);
+            color: var(--primary);
+            padding: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        /* Products Section */
+        .products-section {
+            background: var(--gray);
+            padding: 80px 0;
+        }
+
+        .products-hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .products-hero h2 {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .products-hero p {
+            font-size: 20px;
+            color: var(--text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .product-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(241, 196, 15, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .product-card:hover::before {
+            left: 100%;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            margin: 0 auto 25px;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .product-icon {
+            background: linear-gradient(135deg, var(--gold) 0%, #f39c12 100%);
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .product-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .product-card p {
+            color: var(--text);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .learn-more {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .learn-more {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .service-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .service-item i {
+            font-size: 48px;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .service-item h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        /* Contact Section */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .contact-info-box {
+            background: var(--gray);
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .info-item {
+            margin-bottom: 25px;
+        }
+
+        .info-item i {
+            color: var(--gold);
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .info-item h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: white;
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Chat Button */
+        .chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--gold);
+            color: var(--primary);
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            z-index: 999;
+            transition: transform 0.3s;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h2 {
+                font-size: 32px;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-hero h2 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <div class="loader-content">
+            <div class="loader-logo">CACME</div>
+            <div class="loader-text">Fomentando tu Desarrollo</div>
+            <div class="loader-bar">
+                <div class="loader-bar-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <div class="contact-info">
+                    <span><i class="fas fa-phone"></i> 0981045327</span>
+                    <span><i class="fas fa-envelope"></i> info@coopcacme.fin.ec</span>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav-container">
+            <div class="logo">
+                <div class="logo-circle">CACME</div>
+                <div class="logo-text">
+                    <h1>CACME</h1>
+                    <p>Cooperativa de Ahorro y Crédito</p>
+                </div>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#inicio">INICIO</a></li>
+                <li><a href="#nosotros">NOSOTROS</a></li>
+                <li><a href="#productos">PRODUCTOS</a></li>
+                <li><a href="#agencias">AGENCIAS</a></li>
+                <li><a href="#contacto">CONTACTO</a></li>
+            </ul>
+            <a href="#" class="btn-online">CACME EN LÍNEA</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h2>Haz Realidad Tus Sueños y Cumple Tus Metas</h2>
+                <p>17 Años Fomentando tu Desarrollo</p>
+                <p>"Ahorra, Crece, Vive, Bienvenido a CACME"</p>
+                <div class="hero-buttons">
+                    <a href="#productos" class="btn btn-primary">Conocer Productos</a>
+                    <a href="#contacto" class="btn btn-secondary">Contáctanos</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="static/images/chica.png" alt="CACME - Cooperación y Desarrollo" style="max-width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="nosotros" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>QUIÉNES SOMOS</h2>
+                <p>17 años de experiencia construyendo el futuro de nuestra comunidad</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        La Cooperativa de Ahorro y Crédito Mercedes Cadena CACME LTDA. es una institución 
+                        legalmente establecida y controlada por la Superintendencia de Economía Popular y 
+                        Solidaria, con el respaldo del Banco Central del Ecuador y la Corporación de Seguros 
+                        de Depósitos, Fondo de Liquidez y Fondos de Seguros Privados.
+                    </p>
+                    <p>
+                        CACME LTDA. inicia con la idea de facilitar el servicio de prestación de dinero 
+                        entre los miembros de la comunidad Mercedes Cadena, ya que las entidades financieras 
+                        en ese entonces no daban acogida a la gente indígena.
+                    </p>
+                    <p>
+                        Actualmente trabajamos con personal altamente calificado para brindar una atención 
+                        personalizada de calidad, ofreciendo productos y servicios con la capacidad de 
+                        satisfacer las necesidades de nuestros socios y clientes.
+                    </p>
+                </div>
+                <div class="about-image">
+                    <img src="static/images/about_img2.jpg" alt="17 Años Fomentando tu Desarrollo" style="max-width: 100%; height: auto; border-radius: 10px;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="productos" class="products-section">
+        <div class="container">
+            <div class="products-hero">
+                <h2>NUESTROS PRODUCTOS</h2>
+                <p>Soluciones financieras diseñadas para tu crecimiento</p>
+            </div>
+            
+            <div class="products-grid">
+                <!-- Ahorro Programado -->
+                <a href="products/ahorroprogramado.html" class="product-card">
+                    <div class="product-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <h3>Ahorro Programado</h3>
+                    <p>Cada aporte es un paso confiable hacia tus sueños, respaldado por la solidez de CACME.</p>
+                    <span class="learn-more">Ver más →</span>
+                </a>
+
+                <!-- Ahorro Futuro -->
+                <a href="products/ahorro-futuro.html" class="product-card">
+                    <div class="product-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Ahorro Futuro</h3>
+                    <p>Invierte a largo plazo con la seguridad y respaldo de CACME, llevando tus metas más allá.</p>
+                    <span class="learn-more">Ver más →</span>
+                </a>
+
+                <!-- Ahorro Infantil -->
+                <a href="products/ahorro-infantil.html" class="product-card">
+                    <div class="product-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3>Ahorro Infantil</h3>
+                    <p>Construye un fondo que respalde sus estudios, actividades y sus primeros proyectos.</p>
+                    <span class="learn-more">Ver más →</span>
+                </a>
+
+                <!-- Inversiones -->
+                <a href="products/inversiones.html" class="product-card">
+                    <div class="product-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Inversiones</h3>
+                    <p>Tu rendimiento impulsa proyectos locales y el bienestar de todos los socios.</p>
+                    <span class="learn-more">Ver más →</span>
+                </a>
+
+                <!-- CACME Crédito -->
+                <a href="products/cacme-credito.html" class="product-card">
+                    <div class="product-icon">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h3>CACME Crédito</h3>
+                    <p>Atrévete a conquistar tus metas con nuestro crédito inmediato y accesible.</p>
+                    <span class="learn-more">Ver más →</span>
+                </a>
+
+                <!-- Ahorro a la Vista -->
+                <a href="products/ahorro-vista.html" class="product-card">
+                    <div class="product-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Ahorro a la Vista</h3>
+                    <p>Un respaldo sólido que te acompaña en cada paso de tu vida financiera.</p>
+                    <span class="learn-more">Ver más →</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nuestras Agencias Section -->
+    <section id="agencias" class="section" style="background: var(--primary); color: white;">
+        <div class="container">
+            <div class="section-title">
+                <h2 style="color: var(--gold);">NUESTRAS AGENCIAS</h2>
+                <p style="color: white; opacity: 0.9;">Trabajamos para construir el futuro de nuestros socios, respaldados por los entes de control de cooperativas en Ecuador.</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 3rem;">
+                <!-- Imbabura -->
+                <div style="text-align: center;">
+                    <h3 style="color: var(--gold); font-size: 24px; margin-bottom: 30px;">Imbabura</h3>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; margin-bottom: 20px; backdrop-filter: blur(10px);">
+                        <h4 style="color: var(--gold); margin-bottom: 10px;">Matriz Atuntaqui</h4>
+                        <p style="opacity: 0.9;">General Enríquez y Sucre esquina</p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; margin-bottom: 20px; backdrop-filter: blur(10px);">
+                        <h4 style="color: var(--gold); margin-bottom: 10px;">Imantag</h4>
+                        <p style="opacity: 0.9;">Virgilio Morán y Sucre</p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; backdrop-filter: blur(10px);">
+                        <h4 style="color: var(--gold); margin-bottom: 10px;">Otavalo</h4>
+                        <p style="opacity: 0.9;">Morales entre Sucre y Modesto Jaramillo</p>
+                    </div>
+                </div>
+
+                <!-- Chimborazo -->
+                <div style="text-align: center;">
+                    <h3 style="color: var(--gold); font-size: 24px; margin-bottom: 30px;">Chimborazo</h3>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; margin-bottom: 20px; backdrop-filter: blur(10px);">
+                        <h4 style="color: var(--gold); margin-bottom: 10px;">Riobamba</h4>
+                        <p style="opacity: 0.9;">Calle Chile y Juan Lavalle</p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; margin-bottom: 20px; backdrop-filter: blur(10px);">
+                        <h4 style="color: var(--gold); margin-bottom: 10px;">Mercedes Cadena</h4>
+                        <p style="opacity: 0.9;">Barrio central</p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; backdrop-filter: blur(10px);">
+                        <h4 style="color: var(--gold); margin-bottom: 10px;">Guamote</h4>
+                        <p style="opacity: 0.9;">Panamericana García Moreno y Chile</p>
+                    </div>
+                </div>
+
+                <!-- Pichincha -->
+                <div style="text-align: center;">
+                    <h3 style="color: var(--gold); font-size: 24px; margin-bottom: 30px;">Pichincha</h3>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; margin-bottom: 20px; backdrop-filter: blur(10px);">
+                        <h4 style="color: var(--gold); margin-bottom: 10px;">Quito</h4>
+                        <p style="opacity: 0.9;">Centro Histórico Venezuela y Simón Bolívar</p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; backdrop-filter: blur(10px);">
+                        <h4 style="color: var(--gold); margin-bottom: 10px;">Sangolquí</h4>
+                        <p style="opacity: 0.9;">Av. Luis Cordero 686 y Leopoldo M.</p>
+                    </div>
+                </div>
+
+                <!-- El Oro -->
+                <div style="text-align: center;">
+                    <h3 style="color: var(--gold); font-size: 24px; margin-bottom: 30px;">El Oro</h3>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; backdrop-filter: blur(10px);">
+                        <h4 style="color: var(--gold); margin-bottom: 10px;">Machala</h4>
+                        <p style="opacity: 0.9;">Calle Rocafuerte y Santa Rosa esquina</p>
+                    </div>
+                </div>
+
+                <!-- Azuay -->
+                <div style="text-align: center;">
+                    <h3 style="color: var(--gold); font-size: 24px; margin-bottom: 30px;">Azuay</h3>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; backdrop-filter: blur(10px);">
+                        <h4 style="color: var(--gold); margin-bottom: 10px;">Cuenca</h4>
+                        <p style="opacity: 0.9;">Mariscal Lamar 11-24 entre General Torres y Tarqui</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Información adicional -->
+            <div style="text-align: center; margin-top: 3rem; padding: 30px; background: rgba(255,255,255,0.1); border-radius: 20px; backdrop-filter: blur(10px);">
+                <h3 style="color: var(--gold); margin-bottom: 20px;">📍 Encuentra tu Agencia más Cercana</h3>
+                <p style="font-size: 18px; margin-bottom: 20px; opacity: 0.9;">
+                    Con presencia en 5 provincias del Ecuador, CACME está cerca de ti para brindarte el mejor servicio financiero.
+                </p>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+                    <div style="background: var(--gold); color: var(--primary); padding: 10px 20px; border-radius: 25px; font-weight: bold;">
+                        <i class="fas fa-phone"></i> 0981045327
+                    </div>
+                    <div style="background: var(--gold); color: var(--primary); padding: 10px 20px; border-radius: 25px; font-weight: bold;">
+                        <i class="fas fa-envelope"></i> info@coopcacme.fin.ec
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="section" style="background: #f8f9fa;">
+        <div class="container">
+            <div class="section-title">
+                <h2>CONTÁCTANOS</h2>
+                <p>Estamos aquí para atenderte</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-form">
+                    <h3>Envíanos un mensaje</h3>
+                    <form>
+                        <div class="form-group">
+                            <label>Nombre Completo</label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Correo Electrónico</label>
+                            <input type="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel">
+                        </div>
+                        <div class="form-group">
+                            <label>Mensaje</label>
+                            <textarea rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Mensaje</button>
+                    </form>
+                </div>
+                <div class="contact-info-box">
+                    <h3>Información de Contacto</h3>
+                    <div class="info-item">
+                        <h4><i class="fas fa-map-marker-alt"></i> Dirección</h4>
+                        <p>General Enríquez y Sucre esquina<br>Atuntaqui, Imbabura, Ecuador</p>
+                    </div>
+                    <div class="info-item">
+                        <h4><i class="fas fa-phone"></i> Teléfonos</h4>
+                        <p>(06) 2910327<br>0981045327</p>
+                    </div>
+                    <div class="info-item">
+                        <h4><i class="fas fa-envelope"></i> Email</h4>
+                        <p>info@coopcacme.fin.ec</p>
+                    </div>
+                    <div class="info-item">
+                        <h4><i class="fas fa-clock"></i> Horario</h4>
+                        <p>Lunes a Viernes: 8:00 AM - 5:00 PM<br>Sábados: 8:00 AM - 12:00 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>CACME LTDA</h3>
+                <p>Cooperativa de Ahorro y Crédito Mercedes Cadena</p>
+                <p>"Fomentamos tu desarrollo"</p>
+                <p>17 años de experiencia al servicio de la comunidad</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <a href="#nosotros">Nosotros</a>
+                <a href="#productos">Productos</a>
+                <a href="#servicios">Servicios</a>
+                <a href="#contacto">Contacto</a>
+            </div>
+            <div class="footer-section">
+                <h3>Productos</h3>
+                <a href="#">Ahorro Programado</a>
+                <a href="#">Ahorro Futuro</a>
+                <a href="#">CACME Crédito</a>
+                <a href="#">Inversiones</a>
+            </div>
+            <div class="footer-section">
+                <h3>Síguenos</h3>
+                <p>Mantente informado de nuestras novedades</p>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <a href="#" style="font-size: 20px;"><i class="fab fa-facebook"></i></a>
+                    <a href="#" style="font-size: 20px;"><i class="fab fa-twitter"></i></a>
+                    <a href="#" style="font-size: 20px;"><i class="fab fa-instagram"></i></a>
+                    <a href="#" style="font-size: 20px;"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CACME LTDA. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Chat Button -->
+    <button class="chat-button" onclick="alert('Chat en desarrollo. Contáctanos al 0981045327')">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <!-- Simple JavaScript -->
+    <script>
+        // Loading Screen
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loadingScreen = document.getElementById('loadingScreen');
+                loadingScreen.style.opacity = '0';
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 2000); // Muestra la pantalla de carga por 2 segundos
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('¡Gracias por contactarnos! Te responderemos pronto.');
+            this.reset();
+        });
+    </script>
+    <script src="static/js/cacmi.js"></script>
+</body>
+</html>

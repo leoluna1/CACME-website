@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CACME Crédito - CACME</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #032154;
+            --secondary: #1e3a5f;
+            --gold: #f1c40f;
+            --light-gold: #f9e79f;
+            --white: #ffffff;
+            --gray: #f8f9fa;
+            --text: #6c757d;
+            --dark: #343a40;
+            --success: #28a745;
+            --credit-red: #e74c3c;
+            --credit-orange: #f39c12;
+            --credit-blue: #3498db;
+            --credit-green: #27ae60;
+            --credit-purple: #9b59b6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--white);
+            color: var(--dark);
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--white);
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-circle {
+            width: 40px;
+            height: 40px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--credit-red) 0%, var(--credit-orange) 30%, var(--credit-blue) 70%, var(--credit-green) 100%);
+            color: var(--white);
+            padding: 5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 0;
+            right: 0;
+            font-size: 2rem;
+            opacity: 0.2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 60px;
+            color: var(--credit-orange);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 20px;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            background: var(--white);
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stats-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:nth-child(1) { background: linear-gradient(135deg, var(--credit-red) 0%, #ff6b6b 100%); }
+        .stat-item:nth-child(2) { background: linear-gradient(135deg, var(--credit-orange) 0%, #ffb74d 100%); }
+        .stat-item:nth-child(3) { background: linear-gradient(135deg, var(--credit-blue) 0%, #64b5f6 100%); }
+        .stat-item:nth-child(4) { background: linear-gradient(135deg, var(--credit-green) 0%, #66bb6a 100%); }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--white);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Content Section */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 3rem;
+        }
+
+        .info-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            border-left: 5px solid var(--credit-orange);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .info-card:nth-child(1) { border-left-color: var(--credit-orange); }
+        .info-card:nth-child(2) { border-left-color: var(--credit-blue); }
+        .info-card:nth-child(3) { border-left-color: var(--credit-green); }
+        .info-card:nth-child(4) { border-left-color: var(--credit-purple); }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .info-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .info-card:nth-child(1) .info-card-icon { background: var(--credit-orange); }
+        .info-card:nth-child(2) .info-card-icon { background: var(--credit-blue); }
+        .info-card:nth-child(3) .info-card-icon { background: var(--credit-green); }
+        .info-card:nth-child(4) .info-card-icon { background: var(--credit-purple); }
+
+        .info-card h3 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-card li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .info-card li::before {
+            content: '⚡';
+            position: absolute;
+            left: 0;
+            font-size: 16px;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, var(--light-gold) 0%, var(--gold) 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Credit Types */
+        .credit-types {
+            background: var(--gray);
+            padding: 4rem 0;
+            margin-top: 4rem;
+        }
+
+        .types-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .types-content h2 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 36px;
+            margin-bottom: 3rem;
+        }
+
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .type-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .type-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+        }
+
+        .type-card:nth-child(1)::before { background: var(--credit-blue); }
+        .type-card:nth-child(2)::before { background: var(--credit-green); }
+        .type-card:nth-child(3)::before { background: var(--credit-orange); }
+        .type-card:nth-child(4)::before { background: var(--credit-purple); }
+
+        .type-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .type-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 35px;
+            color: var(--white);
+        }
+
+        .type-card:nth-child(1) .type-icon { background: var(--credit-blue); }
+        .type-card:nth-child(2) .type-icon { background: var(--credit-green); }
+        .type-card:nth-child(3) .type-icon { background: var(--credit-orange); }
+        .type-card:nth-child(4) .type-icon { background: var(--credit-purple); }
+
+        .type-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .amount-range {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--credit-orange);
+            margin: 15px 0;
+        }
+
+        .type-card:nth-child(1) .amount-range { color: var(--credit-blue); }
+        .type-card:nth-child(2) .amount-range { color: var(--credit-green); }
+        .type-card:nth-child(3) .amount-range { color: var(--credit-orange); }
+        .type-card:nth-child(4) .amount-range { color: var(--credit-purple); }
+
+        /* Calculator Section */
+        .calculator-section {
+            padding: 4rem 0;
+            background: var(--white);
+        }
+
+        .calculator-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .calculator-content h2 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 36px;
+            margin-bottom: 3rem;
+        }
+
+        .calculator {
+            background: linear-gradient(135deg, var(--gray) 0%, var(--white) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .form-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--credit-orange);
+        }
+
+        .result-section {
+            background: linear-gradient(135deg, var(--credit-orange) 0%, var(--credit-red) 100%);
+            color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .result-item {
+            margin-bottom: 20px;
+        }
+
+        .result-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .result-highlight {
+            font-size: 28px;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        /* Process Section */
+        .process {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 4rem 0;
+            color: var(--white);
+        }
+
+        .process-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .process h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--gold);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .process-step h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .process-step p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: var(--gray);
+            padding: 4rem 0;
+        }
+
+        .benefits-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .benefits h2 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 36px;
+            margin-bottom: 3rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit-item {
+            background: var(--white);
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 35px;
+            color: var(--white);
+        }
+
+        .benefit-item:nth-child(1) .benefit-icon { background: var(--credit-blue); }
+        .benefit-item:nth-child(2) .benefit-icon { background: var(--credit-green); }
+        .benefit-item:nth-child(3) .benefit-icon { background: var(--credit-orange); }
+        .benefit-item:nth-child(4) .benefit-icon { background: var(--credit-purple); }
+        .benefit-item:nth-child(5) .benefit-icon { background: var(--credit-red); }
+        .benefit-item:nth-child(6) .benefit-icon { background: var(--primary); }
+
+        .benefit-item h4 {
+            color: var(--primary);
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .benefit-item p {
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--credit-green) 0%, var(--credit-blue) 100%);
+            padding: 4rem 0;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: var(--credit-green);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver a Inicio</span>
+            </a>
+            <div class="logo">
+                <div class="logo-circle">CACME</div>
+                <span>Cooperativa de Ahorro y Crédito</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">
+                <i class="fas fa-hand-holding-usd"></i>
+            </div>
+            <h1>CACME Crédito</h1>
+            <p class="subtitle"> Atrévete a conquistar tus metas con nuestro crédito inmediato y accesible. Desde consumo hasta vivienda, tenemos la solución financiera perfecta para ti. ¡Haz realidad tus sueños hoy mismo! </p>
+        </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="quick-stats">
+        <div class="stats-container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">$50K</div>
+                    <div class="stat-label">Monto Máximo</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">48h</div>
+                    <div class="stat-label">Aprobación Rápida</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">48</div>
+                    <div class="stat-label">Meses de Plazo</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">12%</div>
+                    <div class="stat-label">Tasa desde</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content">
+        <div class="info-grid">
+            <!-- Características -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3>Características Principales</h3>
+                <ul>
+                    <li>Aprobación en <span class="highlight">máximo 48 horas</span></li>
+                    <li>Montos desde <span class="highlight">$500 hasta $50,000</span></li>
+                    <li>Tasas competitivas desde <span class="highlight">12% anual</span></li>
+                    <li>Plazos flexibles hasta 48 meses</li>
+                    <li>Sin comisiones por pagos anticipados</li>
+                    <li>Seguros de desgravamen incluidos</li>
+                </ul>
+            </div>
+
+            <!-- Requisitos -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <h3>Requisitos Generales</h3>
+                <ul>
+                    <li>Ser socio activo de CACME</li>
+                    <li>Cédula de identidad vigente</li>
+                    <li>Certificado de votación actualizado</li>
+                    <li>Comprobantes de ingresos (3 meses)</li>
+                    <li>Referencias comerciales y personales</li>
+                    <li>Planilla de servicios básicos</li>
+                </ul>
+            </div>
+
+            <!-- Beneficios -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Beneficios Exclusivos</h3>
+                <ul>
+                    <li>Proceso 100% digital disponible</li>
+                    <li>Asesoría financiera personalizada</li>
+                    <li>Renovación automática disponible</li>
+                    <li>Descuentos por puntualidad en pagos</li>
+                    <li>Acceso a productos preferenciales</li>
+                    <li>Atención prioritaria en oficinas</li>
+                </ul>
+            </div>
+
+            <!-- Garantías -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Garantías Aceptadas</h3>
+                <ul>
+                    <li>Garantía personal con garante</li>
+                    <li>Garantía hipotecaria (bienes inmuebles)</li>
+                    <li>Garantía prendaria (vehículos)</li>
+                    <li>Certificados de depósito CACME</li>
+                    <li>Pólizas de acumulación</li>
+                    <li>Avales institucionales</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Credit Types -->
+    <section class="credit-types">
+        <div class="types-content">
+            <h2>Tipos de Crédito Disponibles</h2>
+            <div class="types-grid">
+                <div class="type-card">
+                    <div class="type-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Crédito de Consumo</h3>
+                    <div class="amount-range">$500 - $20,000</div>
+                    <p><strong>Plazo:</strong> Hasta 48 meses</p>
+                    <p><strong>Tasa:</strong> Desde 12% anual</p>
+                    <p>Para gastos personales, electrodomésticos, educación, salud y viajes.</p>
+                </div>
+                
+                <div class="type-card">
+                    <div class="type-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Microcrédito</h3>
+                    <div class="amount-range">$300 - $10,000</div>
+                    <p><strong>Plazo:</strong> Hasta 36 meses</p>
+                    <p><strong>Tasa:</strong> Desde 15% anual</p>
+                    <p>Para emprendimientos, capital de trabajo y pequeños negocios.</p>
+                </div>
+                
+                <div class="type-card">
+                    <div class="type-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Crédito Hipotecario</h3>
+                    <div class="amount-range">$10,000 - $50,000</div>
+                    <p><strong>Plazo:</strong> Hasta 15 años</p>
+                    <p><strong>Tasa:</strong> Desde 10% anual</p>
+                    <p>Para compra, construcción, remodelación o ampliación de vivienda.</p>
+                </div>
+                
+                <div class="type-card">
+                    <div class="type-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3>Crédito Vehicular</h3>
+                    <div class="amount-range">$5,000 - $30,000</div>
+                    <p><strong>Plazo:</strong> Hasta 5 años</p>
+                    <p><strong>Tasa:</strong> Desde 11% anual</p>
+                    <p>Para compra de vehículos nuevos y usados, motos y maquinaria.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="calculator-section">
+        <div class="calculator-content">
+            <h2>Simulador de Crédito</h2>
+            <div class="calculator">
+                <div class="calculator-grid">
+                    <div class="form-section">
+                        <h3 style="color: var(--primary); margin-bottom: 20px;">Datos del Crédito</h3>
+                        
+                        <div class="form-group">
+                            <label>Monto Solicitado ($)</label>
+                            <input type="number" id="loanAmount" min="500" max="50000" value="5000" onchange="calculateLoan()">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Plazo (meses)</label>
+                            <select id="loanTerm" onchange="calculateLoan()">
+                                <option value="6">6 meses</option>
+                                <option value="12" selected>12 meses</option>
+                                <option value="18">18 meses</option>
+                                <option value="24">24 meses</option>
+                                <option value="36">36 meses</option>
+                                <option value="48">48 meses</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Tipo de Crédito</label>
+                            <select id="creditType" onchange="calculateLoan()">
+                                <option value="12">Consumo (12% anual)</option>
+                                <option value="15">Microcrédito (15% anual)</option>
+                                <option value="10">Hipotecario (10% anual)</option>
+                                <option value="11">Vehicular (11% anual)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="result-section">
+                        <h3 style="margin-bottom: 20px;">Resumen del Crédito</h3>
+                        
+                        <div class="result-item">
+                            <div class="result-label">Monto del Crédito</div>
+                            <div class="result-value" id="loanAmountResult">$5,000.00</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-label">Cuota Mensual</div>
+                            <div class="result-value result-highlight" id="monthlyPayment">$456.88</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-label">Total a Pagar</div>
+                            <div class="result-value" id="totalPayment">$5,482.56</div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-label">Total Intereses</div>
+                            <div class="result-value" id="totalInterest">$482.56</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <p style="color: var(--text); font-size: 14px;">
+                        * Cálculo referencial. Tasas y condiciones sujetas a evaluación crediticia.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process">
+        <div class="process-content">
+            <h2>Proceso Simple y Rápido</h2>
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h4>Solicitud</h4>
+                    <p>Completa tu solicitud en línea o visita nuestras oficinas con la documentación requerida.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h4>Evaluación</h4>
+                    <p>Analizamos tu capacidad de pago y historial crediticio en máximo 48 horas.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h4>Aprobación</h4>
+                    <p>Te notificamos la decisión y las condiciones de tu crédito aprobado.</p>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h4>Desembolso</h4>
+                    <p>Firmas el contrato y recibimos el dinero en tu cuenta o efectivo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="benefits-content">
+            <h2>Ventajas de Elegir CACME Crédito</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Respuesta Rápida</h4>
+                    <p>Aprobación en máximo 48 horas con documentación completa</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <h4>Tasas Competitivas</h4>
+                    <p>Mejores tasas del mercado con condiciones flexibles</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h4>Proceso Digital</h4>
+                    <p>Solicita y gestiona tu crédito desde cualquier dispositivo</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h4>Atención Personalizada</h4>
+                    <p>Asesores especializados te acompañan en todo el proceso</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h4>Plazos Flexibles</h4>
+                    <p>Elige el plazo que mejor se adapte a tu capacidad de pago</p>
+                </div>
+                
+                <div class="benefit-item">
+                    <div class="benefit-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Seguridad Total</h4>
+                    <p>17 años de experiencia y solidez financiera comprobada</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Requirements Detail -->
+    <section style="padding: 4rem 0; background: var(--white);">
+        <div style="max-width: 1000px; margin: 0 auto; padding: 0 20px;">
+            <h2 style="text-align: center; color: var(--primary); font-size: 36px; margin-bottom: 3rem;">
+                Requisitos Específicos por Tipo de Crédito
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+                <div style="background: var(--gray); padding: 30px; border-radius: 15px;">
+                    <h4 style="color: var(--credit-blue); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-shopping-cart"></i> Crédito de Consumo
+                    </h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 5px 0; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0;"></span> Rol de pagos o ingresos
+                        </li>
+                        <li style="padding: 5px 0; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0;"></span> Garante con ingresos demostrables
+                        </li>
+                        <li style="padding: 5px 0; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0;"></span> Comprobante de domicilio
+                        </li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--gray); padding: 30px; border-radius: 15px;">
+                    <h4 style="color: var(--credit-green); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-store"></i> Microcrédito
+                    </h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 5px 0; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0;"></span> Flujo de caja del negocio
+                        </li>
+                        <li style="padding: 5px 0; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0;"></span> Documentos del establecimiento
+                        </li>
+                        <li style="padding: 5px 0; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0;"></span> Historial comercial mínimo 6 meses
+                        </li>
+                    </ul>
+                </div>
+                
+                <div style="background: var(--gray); padding: 30px; border-radius: 15px;">
+                    <h4 style="color: var(--credit-orange); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-home"></i> Crédito Hipotecario
+                    </h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 5px 0; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0;"></span> Escrituras del inmueble en garantía
+                        </li>
+                        <li style="padding: 5px 0; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0;"></span> Avalúo comercial actualizado
+                        </li>
+                        <li style="padding: 5px 0; padding-left: 20px; position: relative;">
+                            <span style="position: absolute; left: 0;"></span> Certificado de gravámenes
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2> ¡Solicita tu Crédito CACME Hoy!</h2>
+        <p>No esperes más para cumplir tus metas. Tenemos el crédito perfecto para ti.</p>
+        <div class="btn-group">
+            <a href="#" class="btn btn-primary">Solicitar Crédito Online</a>
+            <a href="tel:0981045327" class="btn btn-secondary">Llamar a un Asesor</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 CACME LTDA. Todos los derechos reservados. | 17 años fomentando tu desarrollo</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function calculateLoan() {
+            const principal = parseFloat(document.getElementById('loanAmount').value) || 0;
+            const term = parseInt(document.getElementById('loanTerm').value) || 0;
+            const annualRate = parseFloat(document.getElementById('creditType').value) || 0;
+            
+            // Cálculo de cuota mensual con fórmula de anualidad
+            const monthlyRate = annualRate / 12 / 100;
+            const monthlyPayment = principal * (monthlyRate * Math.pow(1 + monthlyRate, term)) / 
+                                 (Math.pow(1 + monthlyRate, term) - 1);
+            
+            const totalPayment = monthlyPayment * term;
+            const totalInterest = totalPayment - principal;
+            
+            // Actualizar resultados
+            document.getElementById('loanAmountResult').textContent = '
+        }
+        
+        // Calcular al cargar la página
+        calculateLoan();
+    </script>
+
+    <!-- Asistente Virtual -->
+    <script src="../../static/js/cacmi.js"></script>
+</body>
+</html> + principal.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('monthlyPayment').textContent = '
+        }
+        
+        // Calcular al cargar la página
+        calculateLoan();
+    </script>
+
+    <!-- Asistente Virtual -->
+    <script src="../../static/js/cacmi.js"></script>
+</body>
+</html> + monthlyPayment.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('totalPayment').textContent = '
+        }
+        
+        // Calcular al cargar la página
+        calculateLoan();
+    </script>
+
+    <!-- Asistente Virtual -->
+    <script src="../../static/js/cacmi.js"></script>
+</body>
+</html> + totalPayment.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('totalInterest').textContent = '
+        }
+        
+        // Calcular al cargar la página
+        calculateLoan();
+    </script>
+
+    <!-- Asistente Virtual -->
+    <script src="../../static/js/cacmi.js"></script>
+</body>
+</html> + totalInterest.toLocaleString('en-US', {minimumFractionDigits: 2});
+        }
+        
+        // Calcular al cargar la página
+        calculateLoan();
+    </script>
+
+    <!-- Asistente Virtual -->
+    <script src="../../static/js/cacmi.js"></script>
+</body>
+</html>

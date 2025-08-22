@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahorro Futuro - CACME</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #032154;
+            --secondary: #1e3a5f;
+            --gold: #f1c40f;
+            --light-gold: #f9e79f;
+            --white: #ffffff;
+            --gray: #f8f9fa;
+            --text: #6c757d;
+            --dark: #343a40;
+            --success: #28a745;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--white);
+            color: var(--dark);
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--white);
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-circle {
+            width: 40px;
+            height: 40px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        /* Hero Section con gradiente diferente */
+        .hero {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: var(--white);
+            padding: 5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 60px;
+            color: #27ae60;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero .subtitle {
+            font-size: 20px;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Content Section */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 3rem;
+        }
+
+        .info-card {
+            background: var(--gray);
+            border-radius: 15px;
+            padding: 30px;
+            border-left: 4px solid #27ae60;
+            transition: transform 0.3s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .info-card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .info-card h3 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-card li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .info-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .highlight {
+            background: #d4edda;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #155724;
+            font-weight: 600;
+        }
+
+        /* Interest Rates Table */
+        .rates-table {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 3rem auto;
+            max-width: 800px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .rates-table h3 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--primary);
+            color: var(--white);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:hover {
+            background: var(--gray);
+        }
+
+        .rate-high {
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Timeline */
+        .timeline {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 0 20px;
+        }
+
+        .timeline h3 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 32px;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-marker {
+            width: 50px;
+            height: 50px;
+            background: #27ae60;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .timeline-marker::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 80px;
+            background: #27ae60;
+            opacity: 0.3;
+        }
+
+        .timeline-item:last-child .timeline-marker::after {
+            display: none;
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding-bottom: 20px;
+        }
+
+        .timeline-content h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .timeline-content p {
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            padding: 4rem 0;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: var(--white);
+            color: #27ae60;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .timeline-marker::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver a Productos</span>
+            </a>
+            <div class="logo">
+                <div class="logo-circle">CACME</div>
+                <span>Cooperativa de Ahorro y Crédito</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <h1>Ahorro Futuro</h1>
+            <p class="subtitle">Construye tu patrimonio a largo plazo con las mejores tasas del mercado. Tu futuro financiero comienza hoy con planes de ahorro diseñados para hacer crecer tu dinero de forma segura y rentable.</p>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content">
+        <div class="info-grid">
+            <!-- Características -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3>Características Principales</h3>
+                <ul>
+                    <li>Plazo mínimo de <span class="highlight">12 meses</span></li>
+                    <li>Tasas de interés preferenciales hasta <span class="highlight">8% anual</span></li>
+                    <li>Capital e intereses garantizados</li>
+                    <li>Posibilidad de reinversión automática</li>
+                    <li>Sin límite máximo de inversión</li>
+                </ul>
+            </div>
+
+            <!-- Requisitos -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <h3>Requisitos de Apertura</h3>
+                <ul>
+                    <li>Ser socio activo de CACME</li>
+                    <li>Cédula de identidad vigente</li>
+                    <li>Monto mínimo: <span class="highlight">$500 USD</span></li>
+                    <li>Llenar formulario de inversión</li>
+                    <li>Definir beneficiarios</li>
+                </ul>
+            </div>
+
+            <!-- Beneficios -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h3>Beneficios Exclusivos</h3>
+                <ul>
+                    <li>Tasas superiores al mercado tradicional</li>
+                    <li>Exoneración de comisiones bancarias</li>
+                    <li>Acceso a créditos con garantía del ahorro</li>
+                    <li>Certificado de depósito transferible</li>
+                    <li>Asesoría financiera personalizada gratuita</li>
+                </ul>
+            </div>
+
+            <!-- Ventajas -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Seguridad y Respaldo</h3>
+                <ul>
+                    <li>Respaldado por COSEDE</li>
+                    <li>Supervisado por la SEPS</li>
+                    <li>17 años de solidez financiera</li>
+                    <li>Transparencia en todas las operaciones</li>
+                    <li>Estados de cuenta mensuales</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Rates Table -->
+        <div class="rates-table">
+            <h3>Tasas de Interés Vigentes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Plazo</th>
+                        <th>Monto Mínimo</th>
+                        <th>Tasa Anual</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>12 meses</td>
+                        <td>$500</td>
+                        <td class="rate-high">6.0%</td>
+                    </tr>
+                    <tr>
+                        <td>18 meses</td>
+                        <td>$1,000</td>
+                        <td class="rate-high">6.5%</td>
+                    </tr>
+                    <tr>
+                        <td>24 meses</td>
+                        <td>$2,000</td>
+                        <td class="rate-high">7.0%</td>
+                    </tr>
+                    <tr>
+                        <td>36 meses</td>
+                        <td>$5,000</td>
+                        <td class="rate-high">7.5%</td>
+                    </tr>
+                    <tr>
+                        <td>48+ meses</td>
+                        <td>$10,000</td>
+                        <td class="rate-high">8.0%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="text-align: center; margin-top: 20px; color: var(--text);">
+                * Tasas sujetas a cambios según políticas vigentes
+            </p>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline">
+            <h3>Tu Camino al Éxito Financiero</h3>
+            
+            <div class="timeline-item">
+                <div class="timeline-marker">1</div>
+                <div class="timeline-content">
+                    <h4>Apertura de Cuenta</h4>
+                    <p>Inicia tu ahorro futuro con un depósito mínimo de $500. Nuestros asesores te guiarán en cada paso.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">2</div>
+                <div class="timeline-content">
+                    <h4>Crecimiento Constante</h4>
+                    <p>Tu dinero crece mes a mes con intereses competitivos, capitalizables según el plazo elegido.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">3</div>
+                <div class="timeline-content">
+                    <h4>Monitoreo y Control</h4>
+                    <p>Accede a tu estado de cuenta en línea y mantén el control total de tu inversión 24/7.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-marker">4</div>
+                <div class="timeline-content">
+                    <h4>Alcanza tus Metas</h4>
+                    <p>Al vencimiento, retira tu capital más intereses o reinvierte para seguir creciendo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2>Tu Futuro Te Está Esperando</h2>
+        <p>Comienza hoy mismo a construir el patrimonio que siempre soñaste</p>
+        <div class="btn-group">
+            <a href="#" class="btn btn-primary">Abrir Ahorro Futuro</a>
+            <a href="tel:0981045327" class="btn btn-secondary">Solicitar Asesoría</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 CACME LTDA. Todos los derechos reservados. | 17 años fomentando tu desarrollo</p>
+    </footer>
+
+    <!-- Asistente Virtual -->
+    <script src="../../static/js/cacmi.js"></script>
+</body>
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahorro Programado - CACME</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #032154;
+            --secondary: #1e3a5f;
+            --gold: #f1c40f;
+            --light-gold: #f9e79f;
+            --white: #ffffff;
+            --gray: #f8f9fa;
+            --text: #6c757d;
+            --dark: #343a40;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--white);
+            color: var(--dark);
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--white);
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-circle {
+            width: 40px;
+            height: 40px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            padding: 5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(241, 196, 15, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 60px;
+            color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero .subtitle {
+            font-size: 20px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Content Section */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 3rem;
+        }
+
+        .info-card {
+            background: var(--gray);
+            border-radius: 15px;
+            padding: 30px;
+            border-left: 4px solid var(--gold);
+        }
+
+        .info-card-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .info-card h3 {
+            color: var(--primary);
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-card li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .info-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .highlight {
+            background: var(--light-gold);
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--primary);
+            color: var(--white);
+            padding: 4rem 0;
+            margin-top: 4rem;
+        }
+
+        .features-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 35px;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+
+        .feature-item h4 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .feature-item p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: var(--gray);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .cta h2 {
+            color: var(--primary);
+            font-size: 36px;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            color: var(--text);
+            font-size: 18px;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--primary);
+        }
+
+        .btn-secondary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Calculator Section */
+        .calculator {
+            max-width: 600px;
+            margin: 3rem auto;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .calculator h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .result {
+            background: var(--light-gold);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .result h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .result .amount {
+            font-size: 32px;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver a Productos</span>
+            </a>
+            <div class="logo">
+                <div class="logo-circle">CACME</div>
+                <span>Cooperativa de Ahorro y Crédito</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">
+                <i class="fas fa-piggy-bank"></i>
+            </div>
+            <h1>Ahorro Programado</h1>
+            <p class="subtitle">Es una cuenta dirigida a personas que quieren ahorrar periódicamente un monto de dinero en un cierto plazo de tiempo con la finalidad de ayudarte a cumplir tus metas propuestas.</p>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content">
+        <div class="info-grid">
+            <!-- Requisitos -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <h3>Requisitos</h3>
+                <ul>
+                    <li>Copia de cédula de identidad</li>
+                    <li>Copia de papeleta de votación</li>
+                    <li>Copia de servicios básicos (Luz o Agua)</li>
+                    <li>Llenar el formulario de apertura</li>
+                    <li>Fotografía tamaño carnet</li>
+                </ul>
+            </div>
+
+            <!-- Valor de Apertura -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h3>Valor de Apertura</h3>
+                <ul>
+                    <li>Monto mínimo: <span class="highlight">$ 5 dólares Americanos</span></li>
+                    <li>Sin costo de mantenimiento</li>
+                    <li>Sin comisiones adicionales</li>
+                    <li>Depósitos flexibles según tu capacidad</li>
+                </ul>
+            </div>
+
+            <!-- Beneficios -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h3>Beneficios</h3>
+                <ul>
+                    <li>Elige el tiempo de ahorro (diario, semanal o mensual)</li>
+                    <li>Plazo mínimo de ahorro: <span class="highlight">3 meses</span></li>
+                    <li>Interés capitalizable competitivo</li>
+                    <li>Acceso a créditos preferenciales</li>
+                    <li>Seguro de desgravamen incluido</li>
+                    <li>Estado de cuenta mensual sin costo</li>
+                </ul>
+            </div>
+
+            <!-- Características -->
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Características Especiales</h3>
+                <ul>
+                    <li>Plan de ahorro personalizado</li>
+                    <li>Asesoría financiera gratuita</li>
+                    <li>Posibilidad de incrementar montos</li>
+                    <li>Retiros al cumplir el plazo establecido</li>
+                    <li>Renovación automática opcional</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Calculator -->
+        <div class="calculator">
+            <h3>Simulador de Ahorro Programado</h3>
+            <div class="form-group">
+                <label>Monto mensual a ahorrar ($)</label>
+                <input type="number" id="monthlyAmount" min="5" value="50" onchange="calculateSavings()">
+            </div>
+            <div class="form-group">
+                <label>Plazo (meses)</label>
+                <select id="term" onchange="calculateSavings()">
+                    <option value="3">3 meses</option>
+                    <option value="6">6 meses</option>
+                    <option value="12" selected>12 meses</option>
+                    <option value="24">24 meses</option>
+                    <option value="36">36 meses</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tasa de interés anual (%)</label>
+                <input type="number" id="interestRate" value="5.5" step="0.1" readonly>
+            </div>
+            <div class="result">
+                <h4>Total acumulado aproximado</h4>
+                <div class="amount" id="totalAmount">$ 618.50</div>
+                <p>*Cálculo referencial con interés capitalizable</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-content">
+            <h2>¿Por qué elegir nuestro Ahorro Programado?</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4>Seguridad Total</h4>
+                    <p>Tu dinero está protegido por el Fondo de Seguro de Depósitos</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Rendimientos Competitivos</h4>
+                    <p>Tasas de interés superiores al promedio del mercado</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Asesoría Personalizada</h4>
+                    <p>Te ayudamos a planificar tu futuro financiero</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h4>Banca Digital</h4>
+                    <p>Consulta tu saldo y movimientos desde cualquier lugar</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2>¡Empieza a ahorrar hoy mismo!</h2>
+        <p>Da el primer paso hacia tus metas financieras con nuestro Ahorro Programado</p>
+        <div class="btn-group">
+            <a href="#" class="btn btn-primary">Abrir Cuenta Ahora</a>
+            <a href="tel:0981045327" class="btn btn-secondary">Llamar a un Asesor</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 CACME LTDA. Todos los derechos reservados. | 17 años fomentando tu desarrollo</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function calculateSavings() {
+            const monthlyAmount = parseFloat(document.getElementById('monthlyAmount').value) || 0;
+            const term = parseInt(document.getElementById('term').value) || 0;
+            const annualRate = parseFloat(document.getElementById('interestRate').value) || 0;
+            
+            // Cálculo con interés compuesto mensual
+            const monthlyRate = annualRate / 12 / 100;
+            let total = 0;
+            
+            for (let i = 0; i < term; i++) {
+                total = (total + monthlyAmount) * (1 + monthlyRate);
+            }
+            
+            // Mostrar resultado
+            document.getElementById('totalAmount').textContent = '$ ' + total.toFixed(2);
+        }
+        
+        // Calcular al cargar la página
+        calculateSavings();
+    </script>
+
+    <!-- Asistente Virtual -->
+    <script src="../../static/js/cacmi.js"></script>
+</body>
+</html>

@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat CACME - Asistente Virtual</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* Botón flotante del chat */
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: float 3s ease-in-out infinite;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+                box-shadow: 0 4px 15px rgba(0,102,204,0.4);
+            }
+            50% {
+                transform: translateY(-10px) scale(1.02);
+                box-shadow: 0 12px 30px rgba(0,102,204,0.6);
+            }
+        }
+
+        .chat-button:hover {
+            transform: scale(1.15);
+            animation: none;
+            box-shadow: 0 8px 25px rgba(0,102,204,0.8);
+            background: linear-gradient(135deg, #0077dd 0%, #0066cc 100%);
+        }
+
+        .chat-button:active {
+            transform: scale(1.05);
+        }
+
+        .assistant-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Notificación de mensajes nuevos */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: #ff4444;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            animation: pulse-red 1s infinite;
+            border: 2px solid white;
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Mensaje animado del botón */
+        .chat-button-message {
+            position: fixed;
+            bottom: 30px;
+            right: 100px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #333;
+            padding: 12px 20px;
+            border-radius: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 999;
+            animation: slideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), bounce 2s ease-in-out infinite 0.5s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid rgba(0,102,204,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .chat-button-message::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid #f8f9fa;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .wave-emoji {
+            display: inline-block;
+            font-size: 20px;
+            animation: wave 1s ease-in-out infinite;
+            transform-origin: 70% 70%;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            10%, 30% { transform: rotate(14deg); }
+            20% { transform: rotate(-8deg); }
+            40% { transform: rotate(-4deg); }
+        }
+
+        /* Ventana del chat */
+        .chat-container {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 380px;
+            height: 550px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.1);
+            animation: chatSlideUp 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes chatSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .chat-container.active {
+            display: flex;
+        }
+
+        /* Header mejorado */
+        .chat-header {
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            color: white;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .chat-header-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-header-avatar {
+            width: 35px;
+            height: 35px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .chat-header-text h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .chat-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: #00ff00;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .close-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+
+        /* Área de mensajes mejorada */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            animation: messageIn 0.3s ease-out;
+        }
+
+        @keyframes messageIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            line-height: 1.4;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .message.bot .message-bubble {
+            background: white;
+            color: #333;
+            border: 1px solid #e0e0e0;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 10px;
+            opacity: 0.7;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* Indicador de escritura mejorado */
+        .typing {
+            display: none;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 18px;
+            margin-bottom: 10px;
+            width: fit-content;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .typing.active {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .typing span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #999;
+            animation: typingBounce 1.4s infinite;
+        }
+
+        .typing span:nth-child(1) { animation-delay: 0s; }
+        .typing span:nth-child(2) { animation-delay: 0.2s; }
+        .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                background: #999;
+            }
+            30% {
+                transform: translateY(-10px);
+                background: #0066cc;
+            }
+        }
+
+        /* Sugerencias rápidas */
+        .quick-replies {
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .quick-replies::-webkit-scrollbar {
+            display: none;
+        }
+
+        .quick-reply {
+            padding: 8px 14px;
+            background: white;
+            border: 1px solid #0066cc;
+            color: #0066cc;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .quick-reply:hover {
+            background: #0066cc;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,102,204,0.3);
+        }
+
+        /* Input área mejorada */
+        .chat-input-container {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .chat-input:focus {
+            border-color: #0066cc;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0,102,204,0.1);
+        }
+
+        .input-actions {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 5px;
+        }
+
+        .attach-btn {
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .attach-btn:hover {
+            background: #f0f0f0;
+            color: #0066cc;
+        }
+
+        .send-btn {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,102,204,0.3);
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(0,102,204,0.5);
+        }
+
+        .send-btn:active {
+            transform: scale(0.95);
+        }
+
+        .send-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Modo oscuro (opcional) */
+        @media (prefers-color-scheme: dark) {
+            .chat-button-message {
+                background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+                color: white;
+                border-color: rgba(255,255,255,0.1);
+            }
+        }
+
+        /* Móvil responsive */
+        @media (max-width: 500px) {
+            .chat-button-message {
+                display: none;
+            }
+            
+            .chat-button {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .chat-container {
+                width: 100%;
+                height: 100%;
+                bottom: 0;
+                right: 0;
+                border-radius: 0;
+                max-width: 100%;
+            }
+            
+            .chat-header {
+                border-radius: 0;
+            }
+            
+            .quick-replies {
+                padding: 8px 10px;
+            }
+        }
+
+        /* Scrollbar personalizado */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+            transition: background 0.3s;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        /* Toast de notificación */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 2000;
+            animation: toastSlide 0.3s ease-out;
+        }
+
+        @keyframes toastSlide {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.error {
+            background: #ff4444;
+            color: white;
+        }
+
+        .toast.success {
+            background: #00C851;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Botón flotante con asistente -->
+    <div class="chat-button" onclick="toggleChat()">
+        <div class="assistant-avatar">
+            <!-- Cabeza del robot mejorada -->
+            <svg viewBox="0 0 100 100" width="50" height="50">
+                <!-- Sombra -->
+                <ellipse cx="50" cy="90" rx="25" ry="3" fill="rgba(0,0,0,0.1)"/>
+                
+                <!-- Cabeza -->
+                <circle cx="50" cy="45" r="22" fill="#fff" stroke="#0066cc" stroke-width="2.5"/>
+                
+                <!-- Antena con señal -->
+                <line x1="50" y1="23" x2="50" y2="15" stroke="#0066cc" stroke-width="2"/>
+                <circle cx="50" cy="13" r="4" fill="#0066cc">
+                    <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                
+                <!-- Señales de wifi -->
+                <path d="M 40 13 Q 45 8 50 13" stroke="#0066cc" stroke-width="1" fill="none" opacity="0.5">
+                    <animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite"/>
+                </path>
+                <path d="M 50 13 Q 55 8 60 13" stroke="#0066cc" stroke-width="1" fill="none" opacity="0.5">
+                    <animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+                </path>
+                
+                <!-- Ojos expresivos -->
+                <ellipse cx="42" cy="42" rx="4" ry="5" fill="#0066cc">
+                    <animate attributeName="ry" values="5;1;5" dur="4s" repeatCount="indefinite"/>
+                </ellipse>
+                <ellipse cx="58" cy="42" rx="4" ry="5" fill="#0066cc">
+                    <animate attributeName="ry" values="5;1;5" dur="4s" repeatCount="indefinite" begin="0.2s"/>
+                </ellipse>
+                
+                <!-- Sonrisa animada -->
+                <path d="M 38 52 Q 50 58 62 52" stroke="#0066cc" stroke-width="2.5" fill="none" stroke-linecap="round">
+                    <animate attributeName="d" 
+                             values="M 38 52 Q 50 58 62 52;M 38 52 Q 50 60 62 52;M 38 52 Q 50 58 62 52" 
+                             dur="3s" 
+                             repeatCount="indefinite"/>
+                </path>
+                
+                <!-- Cuerpo -->
+                <rect x="33" y="67" width="34" height="20" rx="6" fill="#fff" stroke="#0066cc" stroke-width="2.5"/>
+                
+                <!-- Detalle del cuerpo -->
+                <rect x="46" y="70" width="8" height="3" rx="1" fill="#0066cc"/>
+                <rect x="46" y="75" width="8" height="3" rx="1" fill="#0066cc"/>
+                <rect x="46" y="80" width="8" height="3" rx="1" fill="#0066cc"/>
+                
+                <!-- Brazos mejorados -->
+                <g class="arms">
+                    <!-- Brazo izquierdo -->
+                    <line x1="33" y1="72" x2="23" y2="82" stroke="#0066cc" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="22" cy="83" r="4" fill="#fff" stroke="#0066cc" stroke-width="2"/>
+                    
+                    <!-- Brazo derecho saludando -->
+                    <g transform-origin="67 72">
+                        <line x1="67" y1="72" x2="77" y2="62" stroke="#0066cc" stroke-width="3" stroke-linecap="round">
+                            <animateTransform
+                                attributeName="transform"
+                                type="rotate"
+                                values="0 67 72;-25 67 72;0 67 72;-25 67 72;0 67 72"
+                                dur="2.5s"
+                                repeatCount="indefinite"/>
+                        </line>
+                        <circle cx="78" cy="61" r="4" fill="#fff" stroke="#0066cc" stroke-width="2">
+                            <animateTransform
+                                attributeName="transform"
+                                type="rotate"
+                                values="0 67 72;-25 67 72;0 67 72;-25 67 72;0 67 72"
+                                dur="2.5s"
+                                repeatCount="indefinite"/>
+                        </circle>
+                    </g>
+                </g>
+                
+                <!-- Indicador de estado mejorado -->
+                <circle cx="68" cy="28" r="3" fill="#00ff00">
+                    <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+                    <animate attributeName="r" values="3;4;3" dur="2s" repeatCount="indefinite"/>
+                </circle>
+            </svg>
+        </div>
+        <span class="notification-badge" id="notificationBadge">1</span>
+    </div>
+    
+    <!-- Mensaje animado -->
+    <div class="chat-button-message" id="welcomeMessage">
+        <span class="wave-emoji">🤖</span>
+        <span>¡Hola! Soy CACMI, tu asistente virtual</span>
+    </div>
+
+    <!-- Ventana del chat -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <div class="chat-header-avatar">🤖</div>
+                <div class="chat-header-text">
+                    <h3>CACMI - Asistente Virtual</h3>
+                    <div class="chat-status">
+                        <span class="status-dot"></span>
+                        <span>En línea y listo para ayudarte</span>
+                    </div>
+                </div>
+            </div>
+            <button class="close-btn" onclick="toggleChat()">✕</button>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <!-- Mensaje de bienvenida -->
+            <div class="message bot">
+                <div class="message-bubble">
+                    ¡Hola! 👋 Bienvenido a CACME. Soy CACMI, tu asistente virtual disponible 24/7. 
+                    ¿En qué puedo ayudarte hoy?
+                    <span class="message-time"></span>
+                </div>
+            </div>
+            
+            <!-- Indicador de escritura -->
+            <div class="typing" id="typing">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <!-- Sugerencias rápidas -->
+        <div class="quick-replies" id="quickReplies">
+            <button class="quick-reply" onclick="sendQuickReply('Información sobre créditos')">💰 Créditos</button>
+            <button class="quick-reply" onclick="sendQuickReply('Cuentas de ahorro')">💳 Ahorros</button>
+            <button class="quick-reply" onclick="sendQuickReply('Requisitos para abrir cuenta')">📋 Requisitos</button>
+            <button class="quick-reply" onclick="sendQuickReply('Horarios de atención')">🕐 Horarios</button>
+            <button class="quick-reply" onclick="sendQuickReply('Ubicación')">📍 Ubicación</button>
+        </div>
+
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <input 
+                    type="text" 
+                    class="chat-input" 
+                    id="chatInput" 
+                    placeholder="Escribe tu mensaje..."
+                    onkeypress="if(event.key==='Enter' && !event.shiftKey) sendMessage()"
+                    maxlength="500"
+                >
+                <div class="input-actions">
+                    <button class="attach-btn" onclick="showToast('Función disponible próximamente', 'info')" title="Adjuntar archivo">
+                        📎
+                    </button>
+                </div>
+            </div>
+            <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast de notificaciones -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Configuración de LM Studio
+        const LM_STUDIO_URL = 'http://localhost:1234/v1/chat/completions';
+        
+        // Estado del chat
+        let chatOpen = false;
+        let conversationHistory = [];
+        let messageTimer = null;
+        let isTyping = false;
+        let messageCount = 0;
+        
+        // Sistema prompt mejorado para CACME
+        const SYSTEM_PROMPT = `Eres CACMI, el asistente virtual oficial de la Cooperativa de Ahorro y Crédito Mercedes Cadena (CACME) en Ecuador.
+
+        INFORMACIÓN CLAVE:
+        - CACME tiene más de 17 años de experiencia
+        - Regulada por la Superintendencia de Economía Popular y Solidaria
+        - Lema: "Fomentamos tu desarrollo"
+        - Ubicación: Ibarra, Ecuador
+        
+        PRODUCTOS Y SERVICIOS:
+        1. CRÉDITOS:
+           - Consumo: Hasta $20,000, plazo 48 meses
+           - Microcrédito: Para emprendedores, hasta $10,000
+           - Hipotecario: Hasta 70% del avalúo, plazo 15 años
+           - Vehicular: Hasta 80% del valor, plazo 5 años
+        
+        2. AHORROS:
+           - Cuenta de ahorros: Desde $20, sin costo de mantenimiento
+           - Depósitos a plazo fijo: Tasas preferenciales desde 6%
+           - Ahorro programado: Plan personalizado
+           - Ahorro infantil: Fomenta el ahorro desde temprana edad
+        
+        3. REQUISITOS GENERALES:
+           - Cédula de identidad vigente
+           - Certificado de votación
+           - Planilla de servicios básicos (últimos 3 meses)
+           - Comprobante de ingresos
+        
+        HORARIOS:
+        - Lunes a Viernes: 8:00 AM - 5:00 PM
+        - Sábados: 9:00 AM - 1:00 PM
+        - Domingos: Cerrado
+        
+        INSTRUCCIONES:
+        - Sé amable, profesional y empático
+        - Responde de forma clara y concisa
+        - Si no tienes información específica, sugiere contactar directamente
+        - Usa emojis ocasionalmente para ser más amigable
+        - Personaliza las respuestas según el contexto`;
+
+        // Inicialización
+        function init() {
+            console.log('🤖 CACMI - Asistente Virtual inicializado');
+            console.log('📡 Conectando con LM Studio en:', LM_STUDIO_URL);
+            
+            // Agregar timestamp a mensaje de bienvenida
+            updateMessageTimes();
+            
+            // Mostrar mensaje de bienvenida después de 2 segundos
+            setTimeout(() => {
+                showWelcomeMessage();
+            }, 2000);
+            
+            // Iniciar rotación de mensajes
+            startMessageRotation();
+            
+            // Verificar conexión con LM Studio
+            checkLMStudioConnection();
+        }
+
+        // Verificar conexión con LM Studio
+        async function checkLMStudioConnection() {
+            try {
+                const response = await fetch(LM_STUDIO_URL.replace('/chat/completions', '/models'), {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    console.log('✅ Conexión con LM Studio establecida');
+                } else {
+                    console.log('⚠️ LM Studio no disponible, usando modo fallback');
+                }
+            } catch (error) {
+                console.log('⚠️ Usando respuestas locales (LM Studio no detectado)');
+            }
+        }
+
+        // Mostrar/ocultar mensaje de bienvenida
+        function showWelcomeMessage() {
+            const message = document.getElementById('welcomeMessage');
+            if (message && !chatOpen) {
+                message.style.display = 'flex';
+                
+                // Auto-ocultar después de 10 segundos
+                setTimeout(() => {
+                    if (!chatOpen) {
+                        message.style.opacity = '0';
+                        setTimeout(() => {
+                            message.style.display = 'none';
+                            message.style.opacity = '1';
+                        }, 300);
+                    }
+                }, 10000);
+            }
+        }
+
+        // Abrir/Cerrar chat
+        function toggleChat() {
+            chatOpen = !chatOpen;
+            const container = document.getElementById('chatContainer');
+            const welcomeMsg = document.getElementById('welcomeMessage');
+            const badge = document.getElementById('notificationBadge');
+            
+            container.classList.toggle('active');
+            
+            if (chatOpen) {
+                document.getElementById('chatInput').focus();
+                welcomeMsg.style.display = 'none';
+                badge.style.display = 'none';
+                clearInterval(messageTimer);
+                
+                // Guardar en localStorage que el chat fue abierto
+                localStorage.setItem('cacmi_chat_opened', 'true');
+            } else {
+                // Mostrar mensaje después de cerrar
+                setTimeout(() => {
+                    showWelcomeMessage();
+                }, 3000);
+            }
+        }
+
+        // Enviar mensaje
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message || isTyping) return;
+            
+            // Validar longitud del mensaje
+            if (message.length > 500) {
+                showToast('El mensaje es muy largo. Máximo 500 caracteres.', 'error');
+                return;
+            }
+            
+            isTyping = true;
+            
+            // Deshabilitar input
+            input.disabled = true;
+            document.getElementById('sendBtn').disabled = true;
+            
+            // Agregar mensaje del usuario
+            addMessage(message, 'user');
+            
+            // Limpiar input
+            input.value = '';
+            
+            // Ocultar respuestas rápidas temporalmente
+            document.getElementById('quickReplies').style.display = 'none';
+            
+            // Mostrar indicador de escritura
+            showTyping();
+            
+            try {
+                // Simular delay natural de escritura
+                const typingDelay = Math.min(message.length * 20, 2000);
+                await sleep(typingDelay);
+                
+                // Obtener respuesta
+                const response = await getResponse(message);
+                
+                // Ocultar indicador y mostrar respuesta
+                hideTyping();
+                addMessage(response, 'bot');
+                
+                // Mostrar respuestas rápidas relevantes
+                updateQuickReplies(message);
+                
+            } catch (error) {
+                hideTyping();
+                addMessage('Disculpa, hubo un problema. ¿Podrías intentar de nuevo?', 'bot');
+                console.error('Error:', error);
+            } finally {
+                // Rehabilitar input
+                isTyping = false;
+                input.disabled = false;
+                document.getElementById('sendBtn').disabled = false;
+                input.focus();
+            }
+        }
+
+        // Obtener respuesta (LM Studio o fallback)
+        async function getResponse(message) {
+            // Intentar con LM Studio primero
+            try {
+                return await callLMStudio(message);
+            } catch (error) {
+                // Si falla, usar respuestas locales
+                return getFallbackResponse(message);
+            }
+        }
+
+        // Llamar a LM Studio API
+        async function callLMStudio(message) {
+            conversationHistory.push({ role: 'user', content: message });
+            
+            const messages = [
+                { role: 'system', content: SYSTEM_PROMPT },
+                ...conversationHistory.slice(-10) // Mantener últimos 10 mensajes
+            ];
+            
+            const response = await fetch(LM_STUDIO_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    messages: messages,
+                    temperature: 0.7,
+                    max_tokens: 200,
+                    stream: false
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('LM Studio no disponible');
+            }
+            
+            const data = await response.json();
+            const botMessage = data.choices[0].message.content;
+            
+            conversationHistory.push({ role: 'assistant', content: botMessage });
+            
+            return botMessage;
+        }
+
+        // Respuestas de fallback mejoradas
+        function getFallbackResponse(message) {
+            const lower = message.toLowerCase();
+            
+            // Base de respuestas más completa
+            const responses = {
+                credito: {
+                    keywords: ['crédito', 'préstamo', 'financiamiento', 'prestar'],
+                    response: '💰 Ofrecemos varios tipos de créditos:\n\n• **Consumo**: Hasta $20,000\n• **Microcrédito**: Para emprendedores\n• **Hipotecario**: Para tu vivienda\n• **Vehicular**: Para tu auto\n\nTodos con tasas competitivas y aprobación rápida. ¿Cuál te interesa?'
+                },
+                ahorro: {
+                    keywords: ['ahorro', 'cuenta', 'guardar', 'deposito'],
+                    response: '💳 Nuestras opciones de ahorro incluyen:\n\n• **Cuenta de ahorros**: Desde $20\n• **Plazo fijo**: Tasas desde 6% anual\n• **Ahorro programado**: Plan personalizado\n• **Ahorro infantil**: Para los más pequeños\n\nSin costos de mantenimiento. ¿Deseas más información?'
+                },
+                requisitos: {
+                    keywords: ['requisito', 'documento', 'necesito', 'papeles'],
+                    response: '📋 Para abrir tu cuenta necesitas:\n\n• Cédula de identidad vigente\n• Certificado de votación\n• Planilla de servicios básicos\n• Comprobante de ingresos\n• Monto mínimo: $20\n\nEl proceso es rápido y sencillo.'
+                },
+                horario: {
+                    keywords: ['horario', 'hora', 'cuando', 'atienden', 'abierto'],
+                    response: '🕐 Nuestros horarios son:\n\n• **Lunes a Viernes**: 8:00 AM - 5:00 PM\n• **Sábados**: 9:00 AM - 1:00 PM\n• **Domingos**: Cerrado\n\nTe esperamos en nuestras oficinas.'
+                },
+                ubicacion: {
+                    keywords: ['donde', 'ubicación', 'dirección', 'lugar', 'oficina'],
+                    response: '📍 Estamos ubicados en:\n\n**Ibarra, Ecuador**\nComunidad Mercedes Cadena\n\n📞 Contáctanos:\n• Tel: (06) XXX-XXXX\n• WhatsApp: 099X-XXX-XXX'
+                },
+                saludo: {
+                    keywords: ['hola', 'buenos días', 'buenas tardes', 'buenas noches', 'hey'],
+                    response: '¡Hola! 😊 Es un gusto saludarte. Soy CACMI, tu asistente virtual de CACME. ¿En qué puedo ayudarte hoy?'
+                },
+                despedida: {
+                    keywords: ['gracias', 'adiós', 'chao', 'hasta luego', 'bye'],
+                    response: '¡Ha sido un placer ayudarte! 😊 Recuerda que estoy disponible 24/7. ¡Que tengas un excelente día!'
+                }
+            };
+            
+            // Buscar coincidencia
+            for (const [key, data] of Object.entries(responses)) {
+                for (const keyword of data.keywords) {
+                    if (lower.includes(keyword)) {
+                        return data.response;
+                    }
+                }
+            }
+            
+            // Respuesta por defecto
+            return 'Gracias por tu consulta. 🤔 Para brindarte información más específica sobre ese tema, te sugiero:\n\n• Llamarnos al (06) XXX-XXXX\n• Visitar nuestra oficina en Ibarra\n• O preguntarme sobre créditos, ahorros, requisitos u horarios.';
+        }
+
+        // Agregar mensaje al chat con animación
+        function addMessage(text, sender) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const typing = document.getElementById('typing');
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const time = new Date().toLocaleTimeString('es-EC', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            // Formatear texto con negritas y saltos de línea
+            const formattedText = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+            
+            messageDiv.innerHTML = `
+                <div class="message-bubble">
+                    ${formattedText}
+                    <span class="message-time">${time}</span>
+                </div>
+            `;
+            
+            messagesContainer.insertBefore(messageDiv, typing);
+            
+            // Scroll suave al final
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Incrementar contador de mensajes
+            messageCount++;
+            
+            // Vibración en móviles (si está soportado)
+            if (sender === 'bot' && window.navigator.vibrate) {
+                window.navigator.vibrate(50);
+            }
+        }
+
+        // Enviar respuesta rápida
+        function sendQuickReply(text) {
+            document.getElementById('chatInput').value = text;
+            sendMessage();
+        }
+
+        // Actualizar respuestas rápidas según contexto
+        function updateQuickReplies(lastMessage) {
+            const quickReplies = document.getElementById('quickReplies');
+            quickReplies.style.display = 'flex';
+            
+            // Lógica para mostrar respuestas relevantes
+            if (lastMessage.toLowerCase().includes('crédito')) {
+                quickReplies.innerHTML = `
+                    <button class="quick-reply" onclick="sendQuickReply('Requisitos para crédito')">📋 Requisitos</button>
+                    <button class="quick-reply" onclick="sendQuickReply('Tasas de interés')">💹 Tasas</button>
+                    <button class="quick-reply" onclick="sendQuickReply('Plazos de pago')">📅 Plazos</button>
+                    <button class="quick-reply" onclick="sendQuickReply('Simular crédito')">🧮 Simular</button>
+                `;
+            }
+        }
+
+        // Mostrar/ocultar indicador de escritura
+        function showTyping() {
+            const typing = document.getElementById('typing');
+            typing.classList.add('active');
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTyping() {
+            document.getElementById('typing').classList.remove('active');
+        }
+
+        // Actualizar timestamps
+        function updateMessageTimes() {
+            const times = document.querySelectorAll('.message-time');
+            const now = new Date().toLocaleTimeString('es-EC', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            times.forEach(time => {
+                if (!time.textContent) {
+                    time.textContent = now;
+                }
+            });
+        }
+
+        // Rotación de mensajes de bienvenida
+        function startMessageRotation() {
+            const messages = [
+                '🤖 ¡Hola! Soy CACMI, tu asistente virtual',
+                '💬 ¿Tienes preguntas? ¡Pregúntame!',
+                '💳 Consulta sobre créditos y ahorros',
+                '🏦 CACME - Fomentamos tu desarrollo',
+                '✨ Estoy aquí para ayudarte 24/7',
+                '📱 Chatea conmigo cuando quieras'
+            ];
+            
+            let messageIndex = 0;
+            
+            messageTimer = setInterval(() => {
+                if (!chatOpen) {
+                    const welcomeMsg = document.getElementById('welcomeMessage');
+                    if (welcomeMsg && welcomeMsg.style.display !== 'none') {
+                        messageIndex = (messageIndex + 1) % messages.length;
+                        const [emoji, ...textParts] = messages[messageIndex].split(' ');
+                        welcomeMsg.innerHTML = `
+                            <span class="wave-emoji">${emoji}</span>
+                            <span>${textParts.join(' ')}</span>
+                        `;
+                        
+                        // Reiniciar animación
+                        welcomeMsg.style.animation = 'none';
+                        setTimeout(() => {
+                            welcomeMsg.style.animation = 'slideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), bounce 2s ease-in-out infinite 0.5s';
+                        }, 10);
+                    }
+                }
+            }, 20000); // Cambiar cada 20 segundos
+        }
+
+        // Mostrar toast de notificación
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            toast.style.display = 'flex';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // Función auxiliar para delays
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Detectar si el usuario es nuevo
+        function checkNewUser() {
+            if (!localStorage.getItem('cacmi_chat_opened')) {
+                // Mostrar badge de notificación para nuevos usuarios
+                setTimeout(() => {
+                    const badge = document.getElementById('notificationBadge');
+                    if (!chatOpen) {
+                        badge.style.display = 'flex';
+                    }
+                }, 5000);
+            }
+        }
+
+        // Iniciar cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+        
+        // Verificar si es un nuevo usuario
+        checkNewUser();
+    </script>
+</body>
+</html>
